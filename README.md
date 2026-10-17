@@ -1,5 +1,7 @@
 # Gym Battle Pokémon
 
+PythonAnywhere無料プランへの公開手順は [こちら](docs/pythonanywhere.md)。公開用設定生成・WSGI設定例を同梱しています。
+
 ポケモンマスターズ EX 向けの非公式チーム管理アプリ。Django 5.2 LTS / SQLiteを使用します。
 
 ## 表での操作
