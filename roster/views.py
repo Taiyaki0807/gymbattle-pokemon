@@ -32,31 +32,34 @@ def invalid(request, form):
 @login_required
 def member_list(request):
     query = request.GET.get('q', '').strip()
-    selected_type = request.GET.get('type', '')
+    selected_types = set(request.GET.getlist('type')) & set(dict(TYPES))
+    visible_types = tuple((key, label) for key, label in TYPES if not selected_types or key in selected_types)
     selected_status = request.GET.get('status', '')
     selected_category = request.GET.get('category', '')
-    selected_type = selected_type if selected_type in dict(TYPES) else ''
     selected_status = selected_status if selected_status in Participation.Status.values else ''
     selected_category = selected_category if selected_category in dict(CATEGORIES) else ''
     members = Member.objects.all()
     if query:
         members = members.filter(name__icontains=query)
-    filters = {key: value for key, value in [('pokemon_type', selected_type), ('status', selected_status),
+    filters = {key: value for key, value in [('status', selected_status),
                                            ('category', selected_category)] if value}
     if filters:
+        if selected_types:
+            filters['pokemon_type__in'] = selected_types
         members = members.filter(pk__in=Participation.objects.filter(**filters).values('member_id'))
     rows = []
     for member in members.prefetch_related('participations'):
         mapping = {(p.pokemon_type, p.category): p for p in member.participations.all()}
         cells = []
-        for key, label in TYPES:
+        for key, label in visible_types:
             for category, category_label in CATEGORIES:
                 record = mapping.get((key, category))
                 cells.append({'key': key, 'label': label, 'category': category, 'category_label': category_label,
                               'status': record.status if record else 'no', 'condition': record.condition if record else ''})
         rows.append({'member': member, 'cells': cells})
-    return render(request, 'roster/list.html', {'rows': rows, 'types': TYPES, 'categories': CATEGORIES,
-        'statuses': Participation.Status.choices, 'q': query, 'selected_type': selected_type,
+    return render(request, 'roster/list.html', {'rows': rows, 'types': visible_types, 'all_types': TYPES,
+        'categories': CATEGORIES, 'table_colspan': len(visible_types) * 2 + 2,
+        'statuses': Participation.Status.choices, 'q': query, 'selected_types': selected_types,
         'selected_status': selected_status, 'selected_category': selected_category, 'total': Member.objects.count()})
 
 

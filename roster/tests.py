@@ -53,7 +53,7 @@ class RosterTests(TestCase):
                 self.assertEqual(record.condition, '条件メモ')
         self.client.post(self.cell_url(member), {'status': 'excellent', 'condition': ''})
         self.assertEqual(member.participations.get(pokemon_type='fire', category='physical').status, 'excellent')
-        self.assertEqual(member.participations.get(pokemon_type='fire', category='special').status, 'no')
+        self.assertEqual(member.participations.get(pokemon_type='fire', category='special').status, 'unset')
         self.assertContains(self.client.get('/'), 'value="excellent" selected')
 
     def test_inline_name_notes_and_duplicate_validation(self):
@@ -131,6 +131,41 @@ class RosterTests(TestCase):
         self.assertContains(response, '&lt;script&gt;')
         self.assertNotContains(response, '<script>alert(1)</script>')
         self.assertContains(self.client.get('/', {'q': '該当しない名前'}), '該当するメンバーがいません')
+
+
+    def test_multiple_types_only_render_selected_columns_and_keep_data(self):
+        member = self.add()
+        response = self.client.get('/', {'type': ['normal', 'fire', 'fire', 'invalid']})
+        self.assertEqual([key for key, _ in response.context['types']], ['fire', 'normal'])
+        cells = response.context['rows'][0]['cells']
+        self.assertEqual([(cell['key'], cell['category']) for cell in cells],
+                         [('fire', 'physical'), ('fire', 'special'), ('normal', 'physical'), ('normal', 'special')])
+        self.assertContains(response, 'colspan="2"', count=2)
+        self.assertContains(response, 'value="fire" checked')
+        self.assertContains(response, 'value="normal" checked')
+        self.assertEqual(member.participations.count(), 36)
+        self.assertEqual(len(self.client.get('/').context['types']), 18)
+        self.assertEqual(len(self.client.get('/', {'type': ['invalid']}).context['types']), 18)
+
+    def test_multiple_types_filter_matches_any_selected_type_same_cell(self):
+        fire, water, grass = self.add(), self.add(), self.add()
+        for member, key in [(fire, 'fire'), (water, 'water'), (grass, 'grass')]:
+            member.participations.filter(pokemon_type=key, category='special').update(status='unset')
+        response = self.client.get('/', {'type': ['fire', 'water'], 'category': 'special', 'status': 'unset'})
+        self.assertEqual({row['member'].pk for row in response.context['rows']}, {fire.pk, water.pk})
+        response = self.client.get('/', {'type': ['fire', 'water'], 'category': 'physical', 'status': 'unset'})
+        self.assertEqual(response.context['rows'], [])
+        self.assertContains(response, 'colspan="6"')
+
+    def test_dash_symbol_survives_reload_and_preserves_other_cells(self):
+        member = self.add()
+        response = self.client.post(self.cell_url(member), {'status': 'unset', 'condition': '未定'}, HTTP_ACCEPT='application/json')
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(member.participations.get(pokemon_type='fire', category='physical').get_status_display(), '-')
+        self.assertEqual(member.participations.get(pokemon_type='fire', category='special').status, 'no')
+        response = self.client.get('/', {'type': ['fire', 'water']})
+        self.assertContains(response, 'value="unset" selected>-</option>')
+        self.assertContains(response, '未定')
 
 
 class MigrationTests(TransactionTestCase):

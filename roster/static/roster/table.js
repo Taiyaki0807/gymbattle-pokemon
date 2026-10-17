@@ -66,7 +66,11 @@
     status.textContent = 'メンバーを追加中…';
     try {
       const data = await send(form);
-      window.location.assign('/?added=' + data.id + '#member-' + data.id);
+      const destination = new URL(window.location.href);
+      ['q', 'status', 'category'].forEach(key => destination.searchParams.delete(key));
+      destination.searchParams.set('added', data.id);
+      destination.hash = 'member-' + data.id;
+      window.location.assign(destination.toString());
     } catch (error) {
       status.textContent = error.message;
       status.classList.add('save-error');

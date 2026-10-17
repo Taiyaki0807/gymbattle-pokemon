@@ -21,6 +21,7 @@ class Participation(models.Model):
         YES = 'yes', '〇'
         CONDITIONAL = 'conditional', '△'
         NO = 'no', '×'
+        UNSET = 'unset', '-'
 
     member = models.ForeignKey(Member, on_delete=models.CASCADE, related_name='participations')
     pokemon_type = models.CharField('タイプ', max_length=10, choices=TYPES)
@@ -32,6 +33,6 @@ class Participation(models.Model):
         constraints = [
             models.UniqueConstraint(fields=['member', 'pokemon_type', 'category'], name='unique_member_type_category'),
             models.CheckConstraint(condition=models.Q(pokemon_type__in=[key for key, _ in TYPES]), name='valid_pokemon_type'),
-            models.CheckConstraint(condition=models.Q(status__in=['excellent', 'yes', 'conditional', 'no']), name='valid_status'),
+            models.CheckConstraint(condition=models.Q(status__in=['excellent', 'yes', 'conditional', 'no', 'unset']), name='valid_status'),
             models.CheckConstraint(condition=models.Q(category__in=['physical', 'special']), name='valid_category'),
         ]
