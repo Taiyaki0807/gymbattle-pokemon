@@ -19,7 +19,7 @@
 Python 3.12〜3.14を推奨します。
 
 ```powershell
-git clone --branch codex/django-type-roster https://github.com/Taiyaki0807/gymbattle-pokemon.git
+git clone --branch codex/inline-type-matrix https://github.com/Taiyaki0807/gymbattle-pokemon.git
 cd gymbattle-pokemon
 python -m venv .venv
 .\.venv\Scripts\python -m pip install -r requirements.txt
@@ -37,7 +37,7 @@ macOS/Linuxでは `.venv/Scripts/python` を `.venv/bin/python` に読み替え�
 サーバーを停止し、`db.sqlite3` を別の場所へコピーしてから更新してください。
 
 ```powershell
-git pull --ff-only origin codex/django-type-roster
+git pull --ff-only origin codex/inline-type-matrix
 .\.venv\Scripts\python manage.py migrate
 .\.venv\Scripts\python manage.py runserver
 ```
