@@ -1,18 +1,18 @@
 from django.db import models
-from .constants import TYPES, CATEGORIES
+from .constants import TYPES, CATEGORIES, HEADER_IMAGE_CHOICES
 from django.core.validators import FileExtensionValidator
 from .images import icon_path, validate_icon
 
 
 class HeaderIcon(models.Model):
-    key = models.CharField('表示先', max_length=10, unique=True, choices=TYPES + CATEGORIES)
-    image = models.ImageField('アイコン画像', upload_to=icon_path,
+    key = models.CharField('表示先', max_length=20, unique=True, choices=HEADER_IMAGE_CHOICES)
+    image = models.ImageField('キャラ・タイプ画像', upload_to=icon_path,
         validators=[FileExtensionValidator(['png', 'jpg', 'jpeg', 'webp']), validate_icon],
         help_text='PNG・JPEG・WebP／2MB以下／縦横1024px以下。正方形・透過PNG推奨。')
 
     class Meta:
-        verbose_name = '見出しアイコン'
-        verbose_name_plural = '見出しアイコン'
+        verbose_name = 'キャラ・タイプ画像'
+        verbose_name_plural = 'キャラ・タイプ画像'
         ordering = ['key']
 
     def __str__(self):

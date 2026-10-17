@@ -42,3 +42,6 @@ button:disabled{opacity:.5;cursor:wait}
 @media(max-width:500px){.roster-table .member-col{min-width:145px;max-width:160px}.table-heading{padding:18px}.save-status{padding-left:18px}}
 
 .header-icon{object-fit:contain;vertical-align:middle;margin-right:6px;max-width:22px;max-height:22px}.category-icon{max-width:18px;max-height:18px;margin-right:4px}.icon-settings{display:inline-block;font-size:12px;margin:0 0 8px}
+
+/* Character images appear to the right of each label. */
+.header-icon,.category-icon{width:32px;height:32px;max-width:32px;max-height:32px;margin-left:6px;margin-right:0}.roster-table thead tr:first-child th{height:56px}.roster-table thead tr:nth-child(2) th{top:56px}.roster-table .category-heading{white-space:nowrap;vertical-align:middle}

@@ -42,7 +42,45 @@ class IconTests(TestCase):
         response = self.client.get('/', {'type': ['fire', 'water']})
         self.assertContains(response, physical.image.url, count=2)
         self.assertContains(response, special.image.url, count=2)
-        self.assertContains(response, 'アイコン設定')
+        self.assertContains(response, 'キャラ・タイプ画像の設定')
+
+    def test_each_type_and_category_uses_its_own_character_image(self):
+        fire_physical = self.upload('fire_physical')
+        fire_special = self.upload('fire_special')
+        water_physical = self.upload('water_physical')
+        water_special = self.upload('water_special')
+        response = self.client.get('/', {'type': ['fire', 'water']})
+        headers = response.context['type_headers']
+        self.assertEqual([[c['icon_url'] for c in item['categories']] for item in headers],
+                         [[fire_physical.image.url, fire_special.image.url],
+                          [water_physical.image.url, water_special.image.url]])
+        for icon in [fire_physical, fire_special, water_physical, water_special]:
+            self.assertContains(response, icon.image.url, count=1)
+        response = self.client.get('/', {'type': ['fire']})
+        self.assertNotContains(response, water_physical.image.url)
+        self.assertNotContains(response, water_special.image.url)
+        self.assertContains(response, fire_physical.image.url)
+
+    def test_images_are_after_labels_and_individual_image_overrides_common(self):
+        fire = self.upload('fire')
+        common = self.upload('physical')
+        individual = self.upload('fire_physical')
+        response = self.client.get('/', {'type': ['fire', 'water']})
+        self.assertContains(response, 'ほのお<img class="header-icon" src="' + fire.image.url)
+        self.assertContains(response, '物理<img class="header-icon category-icon" src="' + individual.image.url)
+        self.assertContains(response, common.image.url, count=1)
+        self.assertContains(response, individual.image.url, count=1)
+        individual.delete()
+        self.assertContains(self.client.get('/', {'type': ['fire', 'water']}), common.image.url, count=2)
+
+    def test_all_36_character_destinations_are_valid_and_distinct(self):
+        from .constants import TYPES, CATEGORIES
+        for key, _ in TYPES:
+            for category, _ in CATEGORIES:
+                form = self.form_class({'key': f'{key}_{category}'}, {'image': self.image()})
+                self.assertTrue(form.is_valid(), form.errors)
+                form.save()
+        self.assertEqual(HeaderIcon.objects.count(), 36)
 
     def test_replacement_and_delete_restore_fallback(self):
         icon = self.upload()
@@ -83,4 +121,4 @@ class IconTests(TestCase):
         response = self.client.post(reverse('admin:roster_headericon_add'), {'key': 'fire', 'image': self.image()})
         self.assertEqual(response.status_code, 302)
         self.assertEqual(HeaderIcon.objects.count(), 0)
-        self.assertNotContains(self.client.get('/'), 'アイコン設定')
+        self.assertNotContains(self.client.get('/'), 'キャラ・タイプ画像の設定')
