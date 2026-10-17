@@ -1,71 +1,80 @@
 # Gym Battle Pokémon
 
-ポケモンマスターズ EX のチーム向けに、約20人のメンバーと18タイプへの参加可否を管理する非公式Webアプリです。人数に固定の上限はありません。
+ポケモンマスターズ EX 向けの非公式チーム管理アプリ。Django 5.2 LTS / SQLiteを使用します。
 
-## 機能
+## 表での操作
 
-- 日本語のメンバー × 18タイプ対応表（横スクロール・固定の名前列）
-- タイプごとに「可・条件付き・不可」と条件メモを保存
-- メンバー追加・編集・削除（削除確認画面あり）
-- 名前検索、タイプと参加可否による絞り込み。参加可否のみ指定すると、その状態のタイプを1つ以上持つメンバーを表示
-- SQLiteへの永続化、ログイン必須、CSRF保護
-- Django管理画面とGitHub Actionsによる自動テスト
+- 表の「＋」でメンバーが1行追加されます。専用の追加・編集画面はありません。
+- 名前を直接入力し、各セルで「◎・〇・△・×」を選択します。初期値は×です。
+- 18タイプをそれぞれ物理・特殊に分けた36セル構成。ノーマルは最後に並びます。
+- 名前・記号・メモは変更後に自動保存されます。名前とメモは入力欄から移動すると保存します。
+- 保存に失敗すると入力を保持し、赤枠の説明と「再保存」ボタンを表示します。
+- 名前・タイプ・物理/特殊・記号で絞り込み。複数条件は同じセルに対して判定します。
+- 表は横スクロールでき、名前列とヘッダーが固定されます。削除は確認画面付きです。
+- ログインした全ユーザーが全メンバーを編集できる、信頼できるチーム内向けの構成です。
+- JavaScriptが無効な場合は各入力の保存ボタンで保存できます。
 
-## ローカル起動
+## ローカル起動（PowerShell）
 
-Python 3.12〜3.14を推奨。Django 5.2 LTSを使用します。
+Python 3.12〜3.14を推奨します。
 
 ```powershell
-git clone https://github.com/Taiyaki0807/gymbattle-pokemon.git
+git clone --branch codex/django-type-roster https://github.com/Taiyaki0807/gymbattle-pokemon.git
 cd gymbattle-pokemon
-# PR未マージの場合
-git switch codex/django-type-roster
 python -m venv .venv
-.venv\Scripts\python -m pip install -r requirements.txt
-.venv\Scripts\python manage.py migrate
-.venv\Scripts\python manage.py createsuperuser
-.venv\Scripts\python manage.py runserver
+.\.venv\Scripts\python -m pip install -r requirements.txt
+.\.venv\Scripts\python manage.py migrate
+.\.venv\Scripts\python manage.py createsuperuser
+.\.venv\Scripts\python manage.py runserver
 ```
 
-macOS/Linuxでは `.venv\Scripts\python` を `.venv/bin/python` に読み替えてください。
+http://127.0.0.1:8000/ を開き、作成したアカウントでログインします。
+macOS/Linuxでは `.venv/Scripts/python` を `.venv/bin/python` に読み替えてください。
+管理画面は `/admin/` です。ここから個別の利用者アカウントも追加できます。
 
-ブラウザーで http://127.0.0.1:8000/ を開き、作成したアカウントでログインします。「メンバーを追加」から名前と参加可否を入力してください。初期値はすべて「不可」です。実メンバーのデータは同梱していません。
+## 既存版からの更新
 
-管理画面は http://127.0.0.1:8000/admin/ です。複数の利用者が使う場合は、管理画面のユーザーから個別アカウントを作れます。ログイン可能な全ユーザーが全メンバーを閲覧・編集・削除できる、信頼できるチーム内向けの構成です。
-
-## データとバックアップ
-
-データはプロジェクト直下の `db.sqlite3` に保存され、再起動後も残ります。DB・仮想環境・秘密情報はGit管理対象外です。バックアップはアプリ停止中に `db.sqlite3` を別の場所にコピーしてください。新しいPCへ移す場合は、同じコードと依存関係を準備し、DBを配置して `migrate` を実行します。
-
-## 検証
+サーバーを停止し、`db.sqlite3` を別の場所へコピーしてから更新してください。
 
 ```powershell
-.venv\Scripts\python manage.py check
-.venv\Scripts\python manage.py makemigrations --check --dry-run
-.venv\Scripts\python manage.py test
+git pull --ff-only origin codex/django-type-roster
+.\.venv\Scripts\python manage.py migrate
+.\.venv\Scripts\python manage.py runserver
 ```
 
-追加・更新・削除の永続化、18タイプ、複合フィルター、入力エラー、DB制約、認証・CSRF・HTMLエスケープをテストします。CIではPython 3.12と3.14で実行します。
+既存の可・条件付き・不可はそれぞれ〇・△・×として、物理・特殊の両方に記号と条件メモを引き継ぎます。
+物理と特殊を区別する情報が旧データにはないため、移行後に表で調整してください。
+メンバー名、メモ、アカウントは保持します。新しいDBマイグレーションはデータ損失を避けるため、旧形式へ戻す処理を提供しません。
 
-## 構成と今後の拡張
+## データと構成
+
+DBは `db.sqlite3` に永続化します。DB・秘密情報・仮想環境はGit対象外です。
+バックアップはアプリ停止中にSQLiteファイルをコピーしてください。
 
 - `config/`: 設定・URL・WSGI
-- `roster/models.py`: MemberとParticipation。メンバーとタイプの組み合わせは一意
-- `roster/constants.py`: 18タイプの定義
-- `roster/forms.py`: 18タイプの入力とトランザクション単位の保存
-- `roster/views.py`: 一覧・検索・編集・削除
-- `roster/templates/roster/`、`roster/static/roster/`: 日本語UIとレスポンシブCSS
-- `roster/migrations/`: DBの変更履歴。将来の機能追加時はマイグレーションを追加
+- `roster/models.py`: メンバーとタイプ別・分類別の記号。組み合わせごとに一意制約
+- `roster/forms.py`: 入力値の検証
+- `roster/views.py`: 一覧・絞り込み・行追加・セル更新・削除
+- `roster/templates/roster/`、`roster/static/roster/`: 日本語UIと表の自動保存
+- `roster/migrations/`: スキーマと既存データの移行
 
-参加可否を独立したモデルにしており、今後バディーズ情報やイベント単位の割り当てなどを追加できます。管理画面で作成されていないタイプのレコードは一覧で「未登録」と表示します。通常のメンバー編集画面で保存すると18タイプすべてが揃います。
+## テスト
 
-## 公開運用する場合
+```powershell
+.\.venv\Scripts\python manage.py check
+.\.venv\Scripts\python manage.py makemigrations --check --dry-run
+.\.venv\Scripts\python manage.py test
+```
 
-ローカル起動は開発用です。共有サーバーへの配備はこのPRには含みません。
+行追加・36セル・記号の個別更新・名前変更・入力エラー・検索・認証・CSRF・DB制約・既存データ移行を検証します。
+GitHub ActionsではPython 3.12と3.14で実行します。
 
-- `DJANGO_DEBUG=0`、ランダムな `DJANGO_SECRET_KEY`、`DJANGO_ALLOWED_HOSTS`（カンマ区切り）を環境変数に設定
-- HTTPSとWSGIサーバーを利用し、`python manage.py collectstatic` で集約した静的ファイルを配信
-- `python manage.py check --deploy` で配備設定を確認し、DBの定期バックアップを用意
-- SQLiteファイルを永続ディスクに保存。利用規模拡大時はPostgreSQLへの移行を検討
+## 公開運用
 
-`.env` ファイルの自動読み込みは行いません。環境変数は実行環境側で設定してください。公式画像・ロゴは使用していません。
+開発サーバーによるローカル利用を想定しています。配備時は以下を設定してください。
+
+- 環境変数 `DJANGO_DEBUG=0`、ランダムな `DJANGO_SECRET_KEY`、`DJANGO_ALLOWED_HOSTS`（カンマ区切り）
+- HTTPS、WSGIサーバー、`collectstatic` による静的ファイル配信
+- `manage.py check --deploy` による設定確認、永続ディスクと定期バックアップ
+
+`.env` の自動読み込みはありません。公式画像・ロゴは使用していません。
