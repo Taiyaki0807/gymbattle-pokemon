@@ -8,7 +8,7 @@ from django.urls import reverse
 from django.views.decorators.http import require_http_methods, require_POST
 from .constants import TYPES, CATEGORIES
 from .forms import MemberForm, ParticipationForm
-from .models import Member, Participation
+from .models import Member, Participation, HeaderIcon
 
 
 def wants_json(request):
@@ -48,6 +48,9 @@ def member_list(request):
             filters['pokemon_type__in'] = selected_types
         members = members.filter(pk__in=Participation.objects.filter(**filters).values('member_id'))
     rows = []
+    icon_urls = {icon.key: icon.image.url for icon in HeaderIcon.objects.all() if icon.image}
+    type_headers = [{'key': key, 'label': label, 'icon_url': icon_urls.get(key, '')} for key, label in visible_types]
+    category_headers = [{'key': key, 'label': label, 'icon_url': icon_urls.get(key, '')} for key, label in CATEGORIES]
     for member in members.prefetch_related('participations'):
         mapping = {(p.pokemon_type, p.category): p for p in member.participations.all()}
         cells = []
@@ -59,6 +62,7 @@ def member_list(request):
         rows.append({'member': member, 'cells': cells})
     return render(request, 'roster/list.html', {'rows': rows, 'types': visible_types, 'all_types': TYPES,
         'categories': CATEGORIES, 'table_colspan': len(visible_types) * 2 + 2,
+        'type_headers': type_headers, 'category_headers': category_headers,
         'statuses': Participation.Status.choices, 'q': query, 'selected_types': selected_types,
         'selected_status': selected_status, 'selected_category': selected_category, 'total': Member.objects.count()})
 

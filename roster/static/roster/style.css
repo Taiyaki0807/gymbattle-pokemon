@@ -40,3 +40,5 @@
 .field-feedback:empty{display:none}
 button:disabled{opacity:.5;cursor:wait}
 @media(max-width:500px){.roster-table .member-col{min-width:145px;max-width:160px}.table-heading{padding:18px}.save-status{padding-left:18px}}
+
+.header-icon{object-fit:contain;vertical-align:middle;margin-right:6px;max-width:22px;max-height:22px}.category-icon{max-width:18px;max-height:18px;margin-right:4px}.icon-settings{display:inline-block;font-size:12px;margin:0 0 8px}
