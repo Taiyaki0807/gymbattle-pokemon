@@ -1,5 +1,7 @@
 # Gym Battle Pokémon
 
+**画像なし・共有URLで使うFirebase版は [firebase/](firebase/README.md) にあります。** Firebase Hosting＋Firestoreの無料Sparkプラン向けです。Django版は移行元として保持しています。
+
 PythonAnywhere無料プランへの公開手順は [こちら](docs/pythonanywhere.md)。公開用設定生成・WSGI設定例を同梱しています。
 
 ポケモンマスターズ EX 向けの非公式チーム管理アプリ。Django 5.2 LTS / SQLiteを使用します。

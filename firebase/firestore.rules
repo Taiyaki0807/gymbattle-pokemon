@@ -1,0 +1,79 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedIn() { return request.auth != null; }
+    function validBoardId(id) { return id.matches('[a-zA-Z0-9_-]{32,80}'); }
+    function activeBoard(id) {
+      return signedIn() && validBoardId(id)
+        && get(/databases/$(database)/documents/boards/$(id)).data.enabled == true;
+    }
+    function validCondition(c) {
+      return c is string && c.size() <= 200;
+    }
+    function validRatings(r) {
+      return r is map && r.keys().hasAll(['fire_physical', 'fire_special', 'water_physical', 'water_special', 'electric_physical', 'electric_special', 'grass_physical', 'grass_special', 'ice_physical', 'ice_special', 'fighting_physical', 'fighting_special', 'poison_physical', 'poison_special', 'ground_physical', 'ground_special', 'flying_physical', 'flying_special', 'psychic_physical', 'psychic_special', 'bug_physical', 'bug_special', 'rock_physical', 'rock_special', 'ghost_physical', 'ghost_special', 'dragon_physical', 'dragon_special', 'dark_physical', 'dark_special', 'steel_physical', 'steel_special', 'fairy_physical', 'fairy_special', 'normal_physical', 'normal_special']) && r.keys().hasOnly(['fire_physical', 'fire_special', 'water_physical', 'water_special', 'electric_physical', 'electric_special', 'grass_physical', 'grass_special', 'ice_physical', 'ice_special', 'fighting_physical', 'fighting_special', 'poison_physical', 'poison_special', 'ground_physical', 'ground_special', 'flying_physical', 'flying_special', 'psychic_physical', 'psychic_special', 'bug_physical', 'bug_special', 'rock_physical', 'rock_special', 'ghost_physical', 'ghost_special', 'dragon_physical', 'dragon_special', 'dark_physical', 'dark_special', 'steel_physical', 'steel_special', 'fairy_physical', 'fairy_special', 'normal_physical', 'normal_special'])
+        && r.values().hasOnly(['excellent','yes','conditional','no','unset']);
+    }
+    function validConditions(c) {
+      return c is map && c.keys().hasAll(['fire_physical', 'fire_special', 'water_physical', 'water_special', 'electric_physical', 'electric_special', 'grass_physical', 'grass_special', 'ice_physical', 'ice_special', 'fighting_physical', 'fighting_special', 'poison_physical', 'poison_special', 'ground_physical', 'ground_special', 'flying_physical', 'flying_special', 'psychic_physical', 'psychic_special', 'bug_physical', 'bug_special', 'rock_physical', 'rock_special', 'ghost_physical', 'ghost_special', 'dragon_physical', 'dragon_special', 'dark_physical', 'dark_special', 'steel_physical', 'steel_special', 'fairy_physical', 'fairy_special', 'normal_physical', 'normal_special']) && c.keys().hasOnly(['fire_physical', 'fire_special', 'water_physical', 'water_special', 'electric_physical', 'electric_special', 'grass_physical', 'grass_special', 'ice_physical', 'ice_special', 'fighting_physical', 'fighting_special', 'poison_physical', 'poison_special', 'ground_physical', 'ground_special', 'flying_physical', 'flying_special', 'psychic_physical', 'psychic_special', 'bug_physical', 'bug_special', 'rock_physical', 'rock_special', 'ghost_physical', 'ghost_special', 'dragon_physical', 'dragon_special', 'dark_physical', 'dark_special', 'steel_physical', 'steel_special', 'fairy_physical', 'fairy_special', 'normal_physical', 'normal_special'])
+        && validCondition(c.fire_physical)
+        && validCondition(c.fire_special)
+        && validCondition(c.water_physical)
+        && validCondition(c.water_special)
+        && validCondition(c.electric_physical)
+        && validCondition(c.electric_special)
+        && validCondition(c.grass_physical)
+        && validCondition(c.grass_special)
+        && validCondition(c.ice_physical)
+        && validCondition(c.ice_special)
+        && validCondition(c.fighting_physical)
+        && validCondition(c.fighting_special)
+        && validCondition(c.poison_physical)
+        && validCondition(c.poison_special)
+        && validCondition(c.ground_physical)
+        && validCondition(c.ground_special)
+        && validCondition(c.flying_physical)
+        && validCondition(c.flying_special)
+        && validCondition(c.psychic_physical)
+        && validCondition(c.psychic_special)
+        && validCondition(c.bug_physical)
+        && validCondition(c.bug_special)
+        && validCondition(c.rock_physical)
+        && validCondition(c.rock_special)
+        && validCondition(c.ghost_physical)
+        && validCondition(c.ghost_special)
+        && validCondition(c.dragon_physical)
+        && validCondition(c.dragon_special)
+        && validCondition(c.dark_physical)
+        && validCondition(c.dark_special)
+        && validCondition(c.steel_physical)
+        && validCondition(c.steel_special)
+        && validCondition(c.fairy_physical)
+        && validCondition(c.fairy_special)
+        && validCondition(c.normal_physical)
+        && validCondition(c.normal_special);
+    }
+    function validMember(d) {
+      return d.keys().hasAll(['name','notes','ratings','conditions','order','createdAt','updatedAt'])
+        && d.keys().hasOnly(['name','notes','ratings','conditions','order','createdAt','updatedAt'])
+        && d.name is string && d.name.size() > 0 && d.name.size() <= 60 && d.name.matches('.*[^ ].*')
+        && d.notes is string && d.notes.size() <= 1000
+        && d.order is int && d.order >= 0 && d.order <= 9999999999999
+        && d.createdAt is timestamp && d.updatedAt == request.time
+        && validRatings(d.ratings) && validConditions(d.conditions);
+    }
+    match /boards/{boardId} {
+      allow get: if signedIn() && validBoardId(boardId) && resource.data.enabled == true;
+      allow list, create, update, delete: if false;
+      match /members/{memberId} {
+        allow read: if activeBoard(boardId);
+        allow create: if activeBoard(boardId) && validMember(request.resource.data)
+          && request.resource.data.createdAt == request.time;
+        allow update: if activeBoard(boardId) && validMember(request.resource.data)
+          && request.resource.data.createdAt == resource.data.createdAt
+          && request.resource.data.order == resource.data.order;
+        allow delete: if activeBoard(boardId);
+      }
+    }
+  }
+}

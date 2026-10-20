@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="ja"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="referrer" content="no-referrer"><title>タイプ対応表 | Gym Battle</title></head>
+<body>
+<header class="topbar"><a class="brand" href="#"><span class="brand-icon">G</span> GYM BATTLE <span>チーム管理</span></a><span id="connection">接続準備中</span></header>
+<main>
+  <section id="setup" class="panel setup" hidden><h1>Firebaseへの接続設定が必要です</h1><p>設定後、共有URLを開いてください。</p><p id="setup-detail"></p></section>
+  <section id="app" hidden>
+    <p class="eyebrow">TEAM ROSTER</p><h1>タイプ対応表</h1><p class="muted">物理・特殊それぞれの記号を編集。変更はチーム全員へ反映されます。</p>
+    <div class="overview"><div><strong id="member-count">0</strong> 登録メンバー</div><div><strong>18</strong> タイプ × 物理・特殊</div><div class="legend">◎　〇　△　×　-</div></div>
+    <section class="panel">
+      <form id="filters" class="filters">
+        <div class="search"><label for="search">メンバー名</label><input id="search" placeholder="名前を検索" autocomplete="off"></div>
+        <div><label for="category">物理・特殊</label><select id="category"><option value="">すべて</option><option value="physical">物理</option><option value="special">特殊</option></select></div>
+        <div><label for="rating">記号</label><select id="rating"><option value="">すべての記号</option></select></div>
+        <button type="submit">絞り込む</button><button id="reset" type="button" class="quiet">リセット</button>
+        <fieldset><legend>表示するタイプ（複数選択）</legend><div id="type-options" class="type-options"></div><small>選択したタイプだけ表示。未選択なら全タイプを表示します。</small></fieldset>
+      </form>
+      <div class="table-heading"><div><h2>メンバー一覧 <span id="visible-count"></span></h2><p class="muted">名前・記号・メモは自動保存。表は横にスクロールできます。</p></div><button id="add" aria-label="メンバーを1人追加" disabled>＋</button></div>
+      <div class="save-bar"><p id="save-status" role="status" aria-live="polite">接続中…</p><button id="retry" class="quiet" hidden>保存を再試行</button></div>
+      <div class="table-scroll" tabindex="0" role="region" aria-label="タイプ対応表（横スクロール）"><table><caption class="sr-only">メンバーごとの物理・特殊の記号を直接編集する表</caption><thead id="table-head"></thead><tbody id="table-body"></tbody></table></div>
+    </section>
+    <div class="tools"><button id="backup" class="quiet" disabled>表をバックアップ</button><label class="file-label">バックアップから追加<input id="restore" type="file" accept="application/json,.json" disabled></label><span class="muted">同じ共有URLを知っている人が閲覧・編集できます。</span></div>
+  </section>
+</main><footer>ポケモンマスターズ EX ・ 非公式のチーム管理ツール</footer>
+<dialog id="delete-dialog"><form method="dialog"><h2>メンバーを削除</h2><p id="delete-name"></p><p>共有している表から削除されます。この操作は元に戻せません。</p><div class="actions"><button value="cancel" class="quiet">キャンセル</button><button id="confirm-delete" value="delete" class="danger">削除する</button></div></form></dialog>
+<script type="module" src="/src/app.js"></script>
+</body></html>
