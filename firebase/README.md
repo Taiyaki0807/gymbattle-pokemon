@@ -5,6 +5,8 @@ Firebase Hosting（画面の公開）＋Cloud Firestore（表の保存）＋匿�
 Django、Cloud Functions、App Hosting、Cloud Storage、課金アカウントは不要です。
 既存Django版はリポジトリに残してあります。
 
+対応表は、横にメンバー、縦にタイプごとの物理・特殊を表示します。メンバー名・メモ・削除は列の上部、記号と条件メモは各セルで操作できます。タイプ名とメンバーの見出しはスクロール中も固定表示されます。
+
 ## Firebaseを初めて使う場合
 
 Firebaseは「Googleが提供する、画面と共有データの置き場所」です。

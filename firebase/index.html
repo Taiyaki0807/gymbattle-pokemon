@@ -17,7 +17,7 @@
       </form>
       <div class="table-heading"><div><h2>メンバー一覧 <span id="visible-count"></span></h2><p class="muted">名前・記号・メモは自動保存。表は横にスクロールできます。</p></div><button id="add" aria-label="メンバーを1人追加" disabled>＋</button></div>
       <div class="save-bar"><p id="save-status" role="status" aria-live="polite">接続中…</p><button id="retry" class="quiet" hidden>保存を再試行</button></div>
-      <div class="table-scroll" tabindex="0" role="region" aria-label="タイプ対応表（横スクロール）"><table><caption class="sr-only">メンバーごとの物理・特殊の記号を直接編集する表</caption><thead id="table-head"></thead><tbody id="table-body"></tbody></table></div>
+      <div class="table-scroll" tabindex="0" role="region" aria-label="タイプ対応表（横スクロール）"><table class="transposed-table"><caption class="sr-only">行はタイプ・物理特殊、列はメンバーの対応表</caption><thead id="table-head"></thead><tbody id="table-body"></tbody></table></div>
     </section>
     <div class="tools"><button id="backup" class="quiet" disabled>表をバックアップ</button><label class="file-label">バックアップから追加<input id="restore" type="file" accept="application/json,.json" disabled></label><span class="muted">同じ共有URLを知っている人が閲覧・編集できます。</span></div>
   </section>

@@ -5,6 +5,7 @@ import {getFirestore,collection,doc,getDoc,onSnapshot,updateDoc,setDoc,deleteDoc
 import {TYPES,CATEGORIES,STATUSES,blankRatings,validBoardId,normalizeMember,visibleTypes,filterMembers,parseBackup,toDocument,fromDocument,storageField} from './domain.js';
 
 const $ = id => document.getElementById(id);
+const table = $('table-body').closest('table');
 function element(tag,text,attrs={}) {
   const node=document.createElement(tag);
   if(text!==null) node.textContent=text;
@@ -77,30 +78,30 @@ function memo(value,id,field,label,max) {
   return details;
 }
 function render(force=false) {
-  if(!force && $('table-body').contains(document.activeElement)) { deferred=true; return; }
+  if(!force && table.contains(document.activeElement)) { deferred=true; return; }
   deferred=false;
   const types=visibleTypes(state.filters.types);
-  const head=element('tr',null), subhead=element('tr',null);
-  head.append(element('th','メンバー',{scope:'col',rowspan:'2',class:'member-col'}));
-  for(const [key,label] of types) {
-    const th=element('th',null,{scope:'colgroup',colspan:'2',class:'type-heading'});
-    th.append(element('span','',{class:`type-dot ${key}`}),document.createTextNode(label));
-    head.append(th);
-    for(const [category,name] of CATEGORIES) subhead.append(element('th',name,{scope:'col',class:`category-heading ${category}`}));
-  }
-  head.append(element('th','操作',{scope:'col',rowspan:'2'}));
-  $('table-head').replaceChildren(head,subhead);
   const all=effectiveMembers();
   const members=filterMembers(all,state.filters).sort((a,b)=>(a.order||0)-(b.order||0)||a.id.localeCompare(b.id));
-  const fragment=document.createDocumentFragment();
+  const head=element('tr',null);
+  head.append(element('th','タイプ・分類',{scope:'col',class:'type-label'}));
   for(const member of members) {
-    const row=element('tr',null,{id:`member-${member.id}`});
-    const name=element('th',null,{scope:'row',class:'member-col'});
+    const name=element('th',null,{scope:'col',class:'member-heading',id:`member-${member.id}`});
     const input=editable('input',member.name,member.id,'name',`${member.name}の名前`,60);
     input.required=true;
     name.append(input,memo(member.notes,member.id,'notes','メンバーのメモ',1000));
-    row.append(name);
-    for(const [type,label] of types) for(const [category,categoryLabel] of CATEGORIES) {
+    name.append(element('button','削除',{'data-delete':member.id,class:'delete-link','aria-label':`${member.name}を削除`}));
+    head.append(name);
+  }
+  $('table-head').replaceChildren(head);
+  const fragment=document.createDocumentFragment();
+  for(const [type,label] of types) for(const [category,categoryLabel] of CATEGORIES.filter(([key])=>!state.filters.category||key===state.filters.category)) {
+    if(!members.length) break;
+    const row=element('tr',null,{class:`rating-row ${category}`});
+    const heading=element('th',null,{scope:'row',class:`type-label ${category}`});
+    heading.append(element('span','',{class:`type-dot ${type}`}),document.createTextNode(label),element('span',categoryLabel,{class:'row-category'}));
+    row.append(heading);
+    for(const member of members) {
       const key=`${type}_${category}`, cell=member.ratings[key];
       const td=element('td',null,{class:`symbol-cell ${category}`});
       const select=editable('select','',member.id,`ratings.${key}.status`,`${member.name}・${label}・${categoryLabel}`);
@@ -110,13 +111,11 @@ function render(force=false) {
       td.append(select,memo(cell.condition,member.id,`ratings.${key}.condition`,`${label}・${categoryLabel}のメモ`,200));
       row.append(td);
     }
-    const controls=element('td',null);
-    controls.append(element('button','削除',{'data-delete':member.id,class:'delete-link'}));
-    row.append(controls); fragment.append(row);
+    fragment.append(row);
   }
   if(!members.length) {
     const row=element('tr',null);
-    row.append(element('td',all.length?'該当するメンバーがいません。':'＋から最初のメンバーを追加してください。',{colspan:String(types.length*2+2),class:'empty'}));
+    row.append(element('td',all.length?'該当するメンバーがいません。':'＋から最初のメンバーを追加してください。',{class:'empty'}));
     fragment.append(row);
   }
   $('table-body').replaceChildren(fragment);
@@ -138,7 +137,7 @@ $('filters').addEventListener('submit',event=>{
 $('reset').addEventListener('click',()=>{
   $('filters').reset(); state.filters={query:'',types:new Set(),category:'',status:''}; render(true);
 });
-$('table-body').addEventListener('change',event=>{
+table.addEventListener('change',event=>{
   const input=event.target;
   if(!input.dataset.field||!state.ready) return;
   let value=input.value;
@@ -151,12 +150,12 @@ $('table-body').addEventListener('change',event=>{
   if(input.tagName==='SELECT') input.className=`symbol-select ${value}`;
   queue(input.dataset.member,input.dataset.field,value);
 });
-$('table-body').addEventListener('input',event=>event.target.setCustomValidity?.(''));
-$('table-body').addEventListener('focusout',()=>requestAnimationFrame(()=>{if(deferred) render();}));
+table.addEventListener('input',event=>event.target.setCustomValidity?.(''));
+table.addEventListener('focusout',()=>requestAnimationFrame(()=>{if(deferred) render();}));
 $('retry').addEventListener('click',()=>{failed=false;flush();});
 window.addEventListener('beforeunload',event=>{
   const input=document.activeElement;
-  const editing=$('table-body').contains(input)&&input?.matches('input,textarea')&&input.value!==input.defaultValue;
+  const editing=table.contains(input)&&input?.matches('input,textarea')&&input.value!==input.defaultValue;
   if(writes.size||busy||editing) {event.preventDefault();event.returnValue='';}
 });
 $('add').addEventListener('click',async()=>{
@@ -176,7 +175,7 @@ $('add').addEventListener('click',async()=>{
   finally {busy=false;syncStatus();}
 });
 let deletingId;
-$('table-body').addEventListener('click',event=>{
+table.addEventListener('click',event=>{
   const id=event.target.dataset.delete;
   if(!id||busy||writes.size) return;
   deletingId=id;
