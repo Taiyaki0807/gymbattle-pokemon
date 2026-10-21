@@ -18,608 +18,608 @@
     "name": "Cリーフ",
     "type": "ほのお",
     "role": "テクニカル",
-    "image": ""
+    "image": "/characters/pair-003.webp"
   },
   {
     "id": "pair-004",
     "name": "AnvN",
     "type": "ほのお",
     "role": "テクニカル",
-    "image": ""
+    "image": "/characters/pair-004.webp"
   },
   {
     "id": "pair-005",
     "name": "Spアスナ",
     "type": "ほのお",
     "role": "スピード",
-    "image": ""
+    "image": "/characters/pair-005.webp"
   },
   {
     "id": "pair-006",
     "name": "Arcダンデ",
     "type": "ほのお",
     "role": "マルチ",
-    "image": ""
+    "image": "/characters/pair-006.webp"
   },
   {
     "id": "pair-007",
     "name": "Arcシルバー",
     "type": "ほのお",
     "role": "マルチ",
-    "image": ""
+    "image": "/characters/pair-007.webp"
   },
   {
     "id": "pair-008",
     "name": "ダリア",
     "type": "みず",
     "role": "テクニカル",
-    "image": ""
+    "image": "/characters/pair-008.webp"
   },
   {
     "id": "pair-009",
     "name": "セイカ",
     "type": "みず",
     "role": "スピード",
-    "image": ""
+    "image": "/characters/pair-009.webp"
   },
   {
     "id": "pair-010",
     "name": "Cハルカ",
     "type": "みず",
     "role": "フィールド",
-    "image": ""
+    "image": "/characters/pair-010.webp"
   },
   {
     "id": "pair-011",
     "name": "Arcカスミ",
     "type": "みず",
     "role": "マルチ",
-    "image": ""
+    "image": "/characters/pair-011.webp"
   },
   {
     "id": "pair-012",
     "name": "ハルト",
     "type": "でんき",
     "role": "アタッカー",
-    "image": ""
+    "image": "/characters/pair-012.webp"
   },
   {
     "id": "pair-013",
     "name": "Cグリーン",
     "type": "でんき",
     "role": "サポート",
-    "image": ""
+    "image": "/characters/pair-013.webp"
   },
   {
     "id": "pair-014",
     "name": "96レッド",
     "type": "でんき",
     "role": "テクニカル",
-    "image": ""
+    "image": "/characters/pair-014.webp"
   },
   {
     "id": "pair-015",
     "name": "MAレッド",
     "type": "でんき",
     "role": "テクニカル",
-    "image": ""
+    "image": "/characters/pair-015.webp"
   },
   {
     "id": "pair-016",
     "name": "Mナンジャモ",
     "type": "でんき",
     "role": "フィールド",
-    "image": ""
+    "image": "/characters/pair-016.webp"
   },
   {
     "id": "pair-017",
     "name": "Vトウヤ",
     "type": "でんき",
     "role": "フィールド",
-    "image": ""
+    "image": "/characters/pair-017.webp"
   },
   {
     "id": "pair-018",
     "name": "Anvハルト",
     "type": "くさ",
     "role": "アタッカー",
-    "image": ""
+    "image": "/characters/pair-018.webp"
   },
   {
     "id": "pair-019",
     "name": "ガイ",
     "type": "くさ",
     "role": "アタッカー",
-    "image": ""
+    "image": "/characters/pair-019.webp"
   },
   {
     "id": "pair-020",
     "name": "セキ",
     "type": "くさ",
     "role": "テクニカル",
-    "image": ""
+    "image": "/characters/pair-020.webp"
   },
   {
     "id": "pair-021",
     "name": "季節エリカ",
     "type": "くさ",
     "role": "テクニカル",
-    "image": ""
+    "image": "/characters/pair-021.webp"
   },
   {
     "id": "pair-022",
     "name": "コルサ",
     "type": "くさ",
     "role": "テクニカル",
-    "image": ""
+    "image": "/characters/pair-022.webp"
   },
   {
     "id": "pair-023",
     "name": "季節マイ",
     "type": "くさ",
     "role": "スピード",
-    "image": ""
+    "image": "/characters/pair-023.webp"
   },
   {
     "id": "pair-024",
     "name": "Mボールガイ",
     "type": "くさ",
     "role": "フィールド",
-    "image": ""
+    "image": "/characters/pair-024.webp"
   },
   {
     "id": "pair-025",
     "name": "Cレッド",
     "type": "こおり",
     "role": "アタッカー",
-    "image": ""
+    "image": "/characters/pair-025.webp"
   },
   {
     "id": "pair-026",
     "name": "Mスグリ",
     "type": "こおり",
     "role": "アタッカー",
-    "image": ""
+    "image": "/characters/pair-026.webp"
   },
   {
     "id": "pair-027",
     "name": "ジーナ",
     "type": "こおり",
     "role": "スピード",
-    "image": ""
+    "image": "/characters/pair-027.webp"
   },
   {
     "id": "pair-028",
     "name": "Cトウヤ",
     "type": "こおり",
     "role": "フィールド",
-    "image": ""
+    "image": "/characters/pair-028.webp"
   },
   {
     "id": "pair-029",
     "name": "アオイ",
     "type": "かくとう",
     "role": "アタッカー",
-    "image": ""
+    "image": "/characters/pair-029.webp"
   },
   {
     "id": "pair-030",
     "name": "Mビート",
     "type": "かくとう",
     "role": "スピード",
-    "image": ""
+    "image": "/characters/pair-030.webp"
   },
   {
     "id": "pair-031",
     "name": "テル",
     "type": "かくとう",
     "role": "スピード",
-    "image": ""
+    "image": "/characters/pair-031.webp"
   },
   {
     "id": "pair-032",
     "name": "スグリ",
     "type": "かくとう",
     "role": "フィールド",
-    "image": ""
+    "image": "/characters/pair-032.webp"
   },
   {
     "id": "pair-033",
     "name": "Arcコルニ",
     "type": "かくとう",
     "role": "マルチ",
-    "image": ""
+    "image": "/characters/pair-033.webp"
   },
   {
     "id": "pair-034",
     "name": "マチエール",
     "type": "どく",
     "role": "アタッカー",
-    "image": ""
+    "image": "/characters/pair-034.webp"
   },
   {
     "id": "pair-035",
     "name": "Mゼイユ",
     "type": "どく",
     "role": "アタッカー",
-    "image": ""
+    "image": "/characters/pair-035.webp"
   },
   {
     "id": "pair-036",
     "name": "シュウメイ",
     "type": "どく",
     "role": "サポート",
-    "image": ""
+    "image": "/characters/pair-036.webp"
   },
   {
     "id": "pair-037",
     "name": "Mホミカ",
     "type": "どく",
     "role": "テクニカル",
-    "image": ""
+    "image": "/characters/pair-037.webp"
   },
   {
     "id": "pair-038",
     "name": "オリーヴ",
     "type": "どく",
     "role": "テクニカル",
-    "image": ""
+    "image": "/characters/pair-038.webp"
   },
   {
     "id": "pair-039",
     "name": "アテナ",
     "type": "どく",
     "role": "テクニカル",
-    "image": ""
+    "image": "/characters/pair-039.webp"
   },
   {
     "id": "pair-040",
     "name": "オモダカ",
     "type": "どく",
     "role": "フィールド",
-    "image": ""
+    "image": "/characters/pair-040.webp"
   },
   {
     "id": "pair-041",
     "name": "Anvカイ",
     "type": "どく",
     "role": "フィールド",
-    "image": ""
+    "image": "/characters/pair-041.webp"
   },
   {
     "id": "pair-042",
     "name": "Arcオモダカ",
     "type": "どく",
     "role": "マルチ",
-    "image": ""
+    "image": "/characters/pair-042.webp"
   },
   {
     "id": "pair-043",
     "name": "季節チリ",
     "type": "じめん",
     "role": "アタッカー",
-    "image": ""
+    "image": "/characters/pair-043.webp"
   },
   {
     "id": "pair-044",
     "name": "季節ツツジ",
     "type": "じめん",
     "role": "テクニカル",
-    "image": ""
+    "image": "/characters/pair-044.webp"
   },
   {
     "id": "pair-045",
     "name": "ワサビ",
     "type": "じめん",
     "role": "テクニカル",
-    "image": ""
+    "image": "/characters/pair-045.webp"
   },
   {
     "id": "pair-046",
     "name": "VN",
     "type": "じめん",
     "role": "フィールド",
-    "image": ""
+    "image": "/characters/pair-046.webp"
   },
   {
     "id": "pair-047",
     "name": "Vチリ",
     "type": "じめん",
     "role": "フィールド",
-    "image": ""
+    "image": "/characters/pair-047.webp"
   },
   {
     "id": "pair-048",
     "name": "Cユウキ",
     "type": "じめん",
     "role": "フィールド",
-    "image": ""
+    "image": "/characters/pair-048.webp"
   },
   {
     "id": "pair-049",
     "name": "Arcシロナ",
     "type": "じめん",
     "role": "マルチ",
-    "image": ""
+    "image": "/characters/pair-049.webp"
   },
   {
     "id": "pair-050",
     "name": "Anvグリーン",
     "type": "ひこう",
     "role": "アタッカー",
-    "image": ""
+    "image": "/characters/pair-050.webp"
   },
   {
     "id": "pair-051",
     "name": "Anvフウロ",
     "type": "ひこう",
     "role": "テクニカル",
-    "image": ""
+    "image": "/characters/pair-051.webp"
   },
   {
     "id": "pair-052",
     "name": "Vユウキ",
     "type": "ひこう",
     "role": "フィールド",
-    "image": ""
+    "image": "/characters/pair-052.webp"
   },
   {
     "id": "pair-053",
     "name": "Arcヒビキ",
     "type": "ひこう",
     "role": "マルチ",
-    "image": ""
+    "image": "/characters/pair-053.webp"
   },
   {
     "id": "pair-054",
     "name": "Arcグリーン",
     "type": "ひこう",
     "role": "マルチ",
-    "image": ""
+    "image": "/characters/pair-054.webp"
   },
   {
     "id": "pair-055",
     "name": "Cトウコ",
     "type": "エスパー",
     "role": "アタッカー",
-    "image": ""
+    "image": "/characters/pair-055.webp"
   },
   {
     "id": "pair-056",
     "name": "Arcナツメ",
     "type": "エスパー",
     "role": "マルチ",
-    "image": ""
+    "image": "/characters/pair-056.webp"
   },
   {
     "id": "pair-057",
     "name": "Aハルト",
     "type": "むし",
     "role": "アタッカー",
-    "image": ""
+    "image": "/characters/pair-057.webp"
   },
   {
     "id": "pair-058",
     "name": "バンジロウ",
     "type": "むし",
     "role": "フィールド",
-    "image": ""
+    "image": "/characters/pair-058.webp"
   },
   {
     "id": "pair-059",
     "name": "Vリーフ",
     "type": "むし",
     "role": "フィールド",
-    "image": ""
+    "image": "/characters/pair-059.webp"
   },
   {
     "id": "pair-060",
     "name": "Arcアデク",
     "type": "むし",
     "role": "マルチ",
-    "image": ""
+    "image": "/characters/pair-060.webp"
   },
   {
     "id": "pair-061",
     "name": "Anvユウリ",
     "type": "いわ",
     "role": "サポート",
-    "image": ""
+    "image": "/characters/pair-061.webp"
   },
   {
     "id": "pair-062",
     "name": "サザレ",
     "type": "いわ",
     "role": "フィールド",
-    "image": ""
+    "image": "/characters/pair-062.webp"
   },
   {
     "id": "pair-063",
     "name": "Arcタケシ",
     "type": "いわ",
     "role": "マルチ",
-    "image": ""
+    "image": "/characters/pair-063.webp"
   },
   {
     "id": "pair-064",
     "name": "レホール",
     "type": "ゴースト",
     "role": "サポート",
-    "image": ""
+    "image": "/characters/pair-064.webp"
   },
   {
     "id": "pair-065",
     "name": "Cミヅキ",
     "type": "ゴースト",
     "role": "スピード",
-    "image": ""
+    "image": "/characters/pair-065.webp"
   },
   {
     "id": "pair-066",
     "name": "Aウォロ",
     "type": "ゴースト",
     "role": "フィールド",
-    "image": ""
+    "image": "/characters/pair-066.webp"
   },
   {
     "id": "pair-067",
     "name": "Anvレッド",
     "type": "ドラゴン",
     "role": "アタッカー",
-    "image": ""
+    "image": "/characters/pair-067.webp"
   },
   {
     "id": "pair-068",
     "name": "Cヒカリ",
     "type": "ドラゴン",
     "role": "アタッカー",
-    "image": ""
+    "image": "/characters/pair-068.webp"
   },
   {
     "id": "pair-069",
     "name": "Cコウキ",
     "type": "ドラゴン",
     "role": "サポート",
-    "image": ""
+    "image": "/characters/pair-069.webp"
   },
   {
     "id": "pair-070",
     "name": "カキツバタ",
     "type": "ドラゴン",
     "role": "テクニカル",
-    "image": ""
+    "image": "/characters/pair-070.webp"
   },
   {
     "id": "pair-071",
     "name": "ハッサク",
     "type": "ドラゴン",
     "role": "フィールド",
-    "image": ""
+    "image": "/characters/pair-071.webp"
   },
   {
     "id": "pair-072",
     "name": "Arcワタル",
     "type": "ドラゴン",
     "role": "マルチ",
-    "image": ""
+    "image": "/characters/pair-072.webp"
   },
   {
     "id": "pair-073",
     "name": "ピーニャ",
     "type": "あく",
     "role": "アタッカー",
-    "image": ""
+    "image": "/characters/pair-073.webp"
   },
   {
     "id": "pair-074",
     "name": "Cマリィ",
     "type": "あく",
     "role": "アタッカー",
-    "image": ""
+    "image": "/characters/pair-074.webp"
   },
   {
     "id": "pair-075",
     "name": "Anvセレナ",
     "type": "あく",
     "role": "アタッカー",
-    "image": ""
+    "image": "/characters/pair-075.webp"
   },
   {
     "id": "pair-076",
     "name": "Aマリィ",
     "type": "あく",
     "role": "フィールド",
-    "image": ""
+    "image": "/characters/pair-076.webp"
   },
   {
     "id": "pair-077",
     "name": "ArcN",
     "type": "あく",
     "role": "マルチ",
-    "image": ""
+    "image": "/characters/pair-077.webp"
   },
   {
     "id": "pair-078",
     "name": "Cヨウ",
     "type": "はがね",
     "role": "アタッカー",
-    "image": ""
+    "image": "/characters/pair-078.webp"
   },
   {
     "id": "pair-079",
     "name": "ユウリ",
     "type": "はがね",
     "role": "アタッカー",
-    "image": ""
+    "image": "/characters/pair-079.webp"
   },
   {
     "id": "pair-080",
     "name": "Mライヤー",
     "type": "はがね",
     "role": "スピード",
-    "image": ""
+    "image": "/characters/pair-080.webp"
   },
   {
     "id": "pair-081",
     "name": "Vポピー",
     "type": "はがね",
     "role": "フィールド",
-    "image": ""
+    "image": "/characters/pair-081.webp"
   },
   {
     "id": "pair-082",
     "name": "Arcダイゴ",
     "type": "はがね",
     "role": "マルチ",
-    "image": ""
+    "image": "/characters/pair-082.webp"
   },
   {
     "id": "pair-083",
     "name": "Mグラジオ",
     "type": "フェアリー",
     "role": "アタッカー",
-    "image": ""
+    "image": "/characters/pair-083.webp"
   },
   {
     "id": "pair-084",
     "name": "Mネモ",
     "type": "フェアリー",
     "role": "アタッカー",
-    "image": ""
+    "image": "/characters/pair-084.webp"
   },
   {
     "id": "pair-085",
     "name": "季節セキ",
     "type": "フェアリー",
     "role": "アタッカー",
-    "image": ""
+    "image": "/characters/pair-085.webp"
   },
   {
     "id": "pair-086",
     "name": "学園クリス",
     "type": "フェアリー",
     "role": "サポート",
-    "image": ""
+    "image": "/characters/pair-086.webp"
   },
   {
     "id": "pair-087",
     "name": "タロ",
     "type": "フェアリー",
     "role": "フィールド",
-    "image": ""
+    "image": "/characters/pair-087.webp"
   },
   {
     "id": "pair-088",
     "name": "Mixミヅキ",
     "type": "フェアリー",
     "role": "フィールド",
-    "image": ""
+    "image": "/characters/pair-088.webp"
   },
   {
     "id": "pair-089",
     "name": "Arcカルネ",
     "type": "フェアリー",
     "role": "マルチ",
-    "image": ""
+    "image": "/characters/pair-089.webp"
   }
 ]

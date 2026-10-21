@@ -13,7 +13,7 @@ Django、Cloud Functions、App Hosting、Cloud Storage、課金アカウント�
 
 初期キャラ一覧は提供された89体を `src/characters.json` に登録しています。キャラIDは手持ちデータの参照に使うため、既存IDを変更したり別キャラへ使い回したりしないでください。追加するときは新しいIDを付け、`node scripts/generate-rules.mjs` でルールを再生成します。
 
-キャラ画像は全員共通の `public/characters/` に96pxのWebPとして保存します。初期画像はCコトネ・Mレッドの2体です。画像未登録・読み込み失敗時は略称を表示します。画像を置き、キャラ一覧の `image` に `/characters/ファイル名.webp` を指定して再公開すると追加できます。画像専用のクラウドストレージは使用しません。
+キャラ画像は全員共通の `public/characters/` に96pxのWebPとして保存します。提供された89体すべての画像を登録済みです。合計約333KBです。画像未登録・読み込み失敗時は略称を表示します。画像を置き、キャラ一覧の `image` に `/characters/ファイル名.webp` を指定して再公開すると追加できます。画像専用のクラウドストレージは使用しません。
 
 手持ちは `boards/{boardId}/members/{memberId}/inventory/{characterId}`、アメは同メンバーの `supplies/candies` に保存します。未入力は未所持・未設定・0個です。参考画像のチェックや個数は実際の所持情報として取り込みません。未所持へ変更してもレベルなどは消去しません。
 
