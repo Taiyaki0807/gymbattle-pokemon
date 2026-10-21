@@ -1,4 +1,5 @@
 import './style.css';
+import {createInventory} from './inventory.js';
 import {initializeApp} from 'firebase/app';
 import {getAuth,signInAnonymously,connectAuthEmulator} from 'firebase/auth';
 import {getFirestore,collection,doc,getDoc,onSnapshot,updateDoc,setDoc,deleteDoc,serverTimestamp,writeBatch,connectFirestoreEmulator} from 'firebase/firestore';
@@ -14,6 +15,7 @@ function element(tag,text,attrs={}) {
 }
 const state={members:[],filters:{query:'',types:new Set(),category:'',status:''},ready:false};
 let db, board, memberCollection, unsubscribe;
+let inventory;
 const writes=new Map();
 let saving=false, failed=false, deferred=false, busy=false, operationError='';
 function notice(text,error=false) { $('save-status').textContent=text; $('save-status').classList.toggle('error',error); }
@@ -210,6 +212,8 @@ $('restore').addEventListener('change',async event=>{
 });
 
 function setup(message) {$('setup').hidden=false;$('setup-detail').textContent=message;$('connection').textContent='未接続';}
+$('show-roster').addEventListener('click',()=>inventory?.show(false));
+$('show-inventory').addEventListener('click',()=>inventory?.show(true));
 async function start() {
   board=new URLSearchParams(window.location.hash.slice(1)).get('b');
   if(!validBoardId(board)) {setup('管理者から受け取った共有URLを開いてください。共有URLには #b= に続いて共有IDが含まれます。');return;}
@@ -227,9 +231,11 @@ async function start() {
     const info=await getDoc(doc(db,'boards',board));
     if(!info.exists()||info.data().enabled!==true) throw new Error('この共有URLは利用できません。管理者に確認してください。');
     memberCollection=collection(db,'boards',board,'members');
+    inventory=createInventory(db,board);
     unsubscribe=onSnapshot(memberCollection,{includeMetadataChanges:true},snapshot=>{
       if(snapshot.metadata.hasPendingWrites) return;
       state.members=snapshot.docs.map(item=>({id:item.id,...fromDocument(item.data())}));
+      inventory.updateMembers(state.members);
       state.ready=true;$('app').hidden=false;$('setup').hidden=true;
       $('connection').textContent='チームと接続中';
       render();syncStatus();

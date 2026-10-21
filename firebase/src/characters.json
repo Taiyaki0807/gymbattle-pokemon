@@ -1,0 +1,625 @@
+[
+  {
+    "id": "pair-001",
+    "name": "Cコトネ",
+    "type": "ほのお",
+    "role": "アタッカー",
+    "image": "/characters/c-kotone.webp"
+  },
+  {
+    "id": "pair-002",
+    "name": "Mレッド",
+    "type": "ほのお",
+    "role": "アタッカー",
+    "image": "/characters/m-red.webp"
+  },
+  {
+    "id": "pair-003",
+    "name": "Cリーフ",
+    "type": "ほのお",
+    "role": "テクニカル",
+    "image": ""
+  },
+  {
+    "id": "pair-004",
+    "name": "AnvN",
+    "type": "ほのお",
+    "role": "テクニカル",
+    "image": ""
+  },
+  {
+    "id": "pair-005",
+    "name": "Spアスナ",
+    "type": "ほのお",
+    "role": "スピード",
+    "image": ""
+  },
+  {
+    "id": "pair-006",
+    "name": "Arcダンデ",
+    "type": "ほのお",
+    "role": "マルチ",
+    "image": ""
+  },
+  {
+    "id": "pair-007",
+    "name": "Arcシルバー",
+    "type": "ほのお",
+    "role": "マルチ",
+    "image": ""
+  },
+  {
+    "id": "pair-008",
+    "name": "ダリア",
+    "type": "みず",
+    "role": "テクニカル",
+    "image": ""
+  },
+  {
+    "id": "pair-009",
+    "name": "セイカ",
+    "type": "みず",
+    "role": "スピード",
+    "image": ""
+  },
+  {
+    "id": "pair-010",
+    "name": "Cハルカ",
+    "type": "みず",
+    "role": "フィールド",
+    "image": ""
+  },
+  {
+    "id": "pair-011",
+    "name": "Arcカスミ",
+    "type": "みず",
+    "role": "マルチ",
+    "image": ""
+  },
+  {
+    "id": "pair-012",
+    "name": "ハルト",
+    "type": "でんき",
+    "role": "アタッカー",
+    "image": ""
+  },
+  {
+    "id": "pair-013",
+    "name": "Cグリーン",
+    "type": "でんき",
+    "role": "サポート",
+    "image": ""
+  },
+  {
+    "id": "pair-014",
+    "name": "96レッド",
+    "type": "でんき",
+    "role": "テクニカル",
+    "image": ""
+  },
+  {
+    "id": "pair-015",
+    "name": "MAレッド",
+    "type": "でんき",
+    "role": "テクニカル",
+    "image": ""
+  },
+  {
+    "id": "pair-016",
+    "name": "Mナンジャモ",
+    "type": "でんき",
+    "role": "フィールド",
+    "image": ""
+  },
+  {
+    "id": "pair-017",
+    "name": "Vトウヤ",
+    "type": "でんき",
+    "role": "フィールド",
+    "image": ""
+  },
+  {
+    "id": "pair-018",
+    "name": "Anvハルト",
+    "type": "くさ",
+    "role": "アタッカー",
+    "image": ""
+  },
+  {
+    "id": "pair-019",
+    "name": "ガイ",
+    "type": "くさ",
+    "role": "アタッカー",
+    "image": ""
+  },
+  {
+    "id": "pair-020",
+    "name": "セキ",
+    "type": "くさ",
+    "role": "テクニカル",
+    "image": ""
+  },
+  {
+    "id": "pair-021",
+    "name": "季節エリカ",
+    "type": "くさ",
+    "role": "テクニカル",
+    "image": ""
+  },
+  {
+    "id": "pair-022",
+    "name": "コルサ",
+    "type": "くさ",
+    "role": "テクニカル",
+    "image": ""
+  },
+  {
+    "id": "pair-023",
+    "name": "季節マイ",
+    "type": "くさ",
+    "role": "スピード",
+    "image": ""
+  },
+  {
+    "id": "pair-024",
+    "name": "Mボールガイ",
+    "type": "くさ",
+    "role": "フィールド",
+    "image": ""
+  },
+  {
+    "id": "pair-025",
+    "name": "Cレッド",
+    "type": "こおり",
+    "role": "アタッカー",
+    "image": ""
+  },
+  {
+    "id": "pair-026",
+    "name": "Mスグリ",
+    "type": "こおり",
+    "role": "アタッカー",
+    "image": ""
+  },
+  {
+    "id": "pair-027",
+    "name": "ジーナ",
+    "type": "こおり",
+    "role": "スピード",
+    "image": ""
+  },
+  {
+    "id": "pair-028",
+    "name": "Cトウヤ",
+    "type": "こおり",
+    "role": "フィールド",
+    "image": ""
+  },
+  {
+    "id": "pair-029",
+    "name": "アオイ",
+    "type": "かくとう",
+    "role": "アタッカー",
+    "image": ""
+  },
+  {
+    "id": "pair-030",
+    "name": "Mビート",
+    "type": "かくとう",
+    "role": "スピード",
+    "image": ""
+  },
+  {
+    "id": "pair-031",
+    "name": "テル",
+    "type": "かくとう",
+    "role": "スピード",
+    "image": ""
+  },
+  {
+    "id": "pair-032",
+    "name": "スグリ",
+    "type": "かくとう",
+    "role": "フィールド",
+    "image": ""
+  },
+  {
+    "id": "pair-033",
+    "name": "Arcコルニ",
+    "type": "かくとう",
+    "role": "マルチ",
+    "image": ""
+  },
+  {
+    "id": "pair-034",
+    "name": "マチエール",
+    "type": "どく",
+    "role": "アタッカー",
+    "image": ""
+  },
+  {
+    "id": "pair-035",
+    "name": "Mゼイユ",
+    "type": "どく",
+    "role": "アタッカー",
+    "image": ""
+  },
+  {
+    "id": "pair-036",
+    "name": "シュウメイ",
+    "type": "どく",
+    "role": "サポート",
+    "image": ""
+  },
+  {
+    "id": "pair-037",
+    "name": "Mホミカ",
+    "type": "どく",
+    "role": "テクニカル",
+    "image": ""
+  },
+  {
+    "id": "pair-038",
+    "name": "オリーヴ",
+    "type": "どく",
+    "role": "テクニカル",
+    "image": ""
+  },
+  {
+    "id": "pair-039",
+    "name": "アテナ",
+    "type": "どく",
+    "role": "テクニカル",
+    "image": ""
+  },
+  {
+    "id": "pair-040",
+    "name": "オモダカ",
+    "type": "どく",
+    "role": "フィールド",
+    "image": ""
+  },
+  {
+    "id": "pair-041",
+    "name": "Anvカイ",
+    "type": "どく",
+    "role": "フィールド",
+    "image": ""
+  },
+  {
+    "id": "pair-042",
+    "name": "Arcオモダカ",
+    "type": "どく",
+    "role": "マルチ",
+    "image": ""
+  },
+  {
+    "id": "pair-043",
+    "name": "季節チリ",
+    "type": "じめん",
+    "role": "アタッカー",
+    "image": ""
+  },
+  {
+    "id": "pair-044",
+    "name": "季節ツツジ",
+    "type": "じめん",
+    "role": "テクニカル",
+    "image": ""
+  },
+  {
+    "id": "pair-045",
+    "name": "ワサビ",
+    "type": "じめん",
+    "role": "テクニカル",
+    "image": ""
+  },
+  {
+    "id": "pair-046",
+    "name": "VN",
+    "type": "じめん",
+    "role": "フィールド",
+    "image": ""
+  },
+  {
+    "id": "pair-047",
+    "name": "Vチリ",
+    "type": "じめん",
+    "role": "フィールド",
+    "image": ""
+  },
+  {
+    "id": "pair-048",
+    "name": "Cユウキ",
+    "type": "じめん",
+    "role": "フィールド",
+    "image": ""
+  },
+  {
+    "id": "pair-049",
+    "name": "Arcシロナ",
+    "type": "じめん",
+    "role": "マルチ",
+    "image": ""
+  },
+  {
+    "id": "pair-050",
+    "name": "Anvグリーン",
+    "type": "ひこう",
+    "role": "アタッカー",
+    "image": ""
+  },
+  {
+    "id": "pair-051",
+    "name": "Anvフウロ",
+    "type": "ひこう",
+    "role": "テクニカル",
+    "image": ""
+  },
+  {
+    "id": "pair-052",
+    "name": "Vユウキ",
+    "type": "ひこう",
+    "role": "フィールド",
+    "image": ""
+  },
+  {
+    "id": "pair-053",
+    "name": "Arcヒビキ",
+    "type": "ひこう",
+    "role": "マルチ",
+    "image": ""
+  },
+  {
+    "id": "pair-054",
+    "name": "Arcグリーン",
+    "type": "ひこう",
+    "role": "マルチ",
+    "image": ""
+  },
+  {
+    "id": "pair-055",
+    "name": "Cトウコ",
+    "type": "エスパー",
+    "role": "アタッカー",
+    "image": ""
+  },
+  {
+    "id": "pair-056",
+    "name": "Arcナツメ",
+    "type": "エスパー",
+    "role": "マルチ",
+    "image": ""
+  },
+  {
+    "id": "pair-057",
+    "name": "Aハルト",
+    "type": "むし",
+    "role": "アタッカー",
+    "image": ""
+  },
+  {
+    "id": "pair-058",
+    "name": "バンジロウ",
+    "type": "むし",
+    "role": "フィールド",
+    "image": ""
+  },
+  {
+    "id": "pair-059",
+    "name": "Vリーフ",
+    "type": "むし",
+    "role": "フィールド",
+    "image": ""
+  },
+  {
+    "id": "pair-060",
+    "name": "Arcアデク",
+    "type": "むし",
+    "role": "マルチ",
+    "image": ""
+  },
+  {
+    "id": "pair-061",
+    "name": "Anvユウリ",
+    "type": "いわ",
+    "role": "サポート",
+    "image": ""
+  },
+  {
+    "id": "pair-062",
+    "name": "サザレ",
+    "type": "いわ",
+    "role": "フィールド",
+    "image": ""
+  },
+  {
+    "id": "pair-063",
+    "name": "Arcタケシ",
+    "type": "いわ",
+    "role": "マルチ",
+    "image": ""
+  },
+  {
+    "id": "pair-064",
+    "name": "レホール",
+    "type": "ゴースト",
+    "role": "サポート",
+    "image": ""
+  },
+  {
+    "id": "pair-065",
+    "name": "Cミヅキ",
+    "type": "ゴースト",
+    "role": "スピード",
+    "image": ""
+  },
+  {
+    "id": "pair-066",
+    "name": "Aウォロ",
+    "type": "ゴースト",
+    "role": "フィールド",
+    "image": ""
+  },
+  {
+    "id": "pair-067",
+    "name": "Anvレッド",
+    "type": "ドラゴン",
+    "role": "アタッカー",
+    "image": ""
+  },
+  {
+    "id": "pair-068",
+    "name": "Cヒカリ",
+    "type": "ドラゴン",
+    "role": "アタッカー",
+    "image": ""
+  },
+  {
+    "id": "pair-069",
+    "name": "Cコウキ",
+    "type": "ドラゴン",
+    "role": "サポート",
+    "image": ""
+  },
+  {
+    "id": "pair-070",
+    "name": "カキツバタ",
+    "type": "ドラゴン",
+    "role": "テクニカル",
+    "image": ""
+  },
+  {
+    "id": "pair-071",
+    "name": "ハッサク",
+    "type": "ドラゴン",
+    "role": "フィールド",
+    "image": ""
+  },
+  {
+    "id": "pair-072",
+    "name": "Arcワタル",
+    "type": "ドラゴン",
+    "role": "マルチ",
+    "image": ""
+  },
+  {
+    "id": "pair-073",
+    "name": "ピーニャ",
+    "type": "あく",
+    "role": "アタッカー",
+    "image": ""
+  },
+  {
+    "id": "pair-074",
+    "name": "Cマリィ",
+    "type": "あく",
+    "role": "アタッカー",
+    "image": ""
+  },
+  {
+    "id": "pair-075",
+    "name": "Anvセレナ",
+    "type": "あく",
+    "role": "アタッカー",
+    "image": ""
+  },
+  {
+    "id": "pair-076",
+    "name": "Aマリィ",
+    "type": "あく",
+    "role": "フィールド",
+    "image": ""
+  },
+  {
+    "id": "pair-077",
+    "name": "ArcN",
+    "type": "あく",
+    "role": "マルチ",
+    "image": ""
+  },
+  {
+    "id": "pair-078",
+    "name": "Cヨウ",
+    "type": "はがね",
+    "role": "アタッカー",
+    "image": ""
+  },
+  {
+    "id": "pair-079",
+    "name": "ユウリ",
+    "type": "はがね",
+    "role": "アタッカー",
+    "image": ""
+  },
+  {
+    "id": "pair-080",
+    "name": "Mライヤー",
+    "type": "はがね",
+    "role": "スピード",
+    "image": ""
+  },
+  {
+    "id": "pair-081",
+    "name": "Vポピー",
+    "type": "はがね",
+    "role": "フィールド",
+    "image": ""
+  },
+  {
+    "id": "pair-082",
+    "name": "Arcダイゴ",
+    "type": "はがね",
+    "role": "マルチ",
+    "image": ""
+  },
+  {
+    "id": "pair-083",
+    "name": "Mグラジオ",
+    "type": "フェアリー",
+    "role": "アタッカー",
+    "image": ""
+  },
+  {
+    "id": "pair-084",
+    "name": "Mネモ",
+    "type": "フェアリー",
+    "role": "アタッカー",
+    "image": ""
+  },
+  {
+    "id": "pair-085",
+    "name": "季節セキ",
+    "type": "フェアリー",
+    "role": "アタッカー",
+    "image": ""
+  },
+  {
+    "id": "pair-086",
+    "name": "学園クリス",
+    "type": "フェアリー",
+    "role": "サポート",
+    "image": ""
+  },
+  {
+    "id": "pair-087",
+    "name": "タロ",
+    "type": "フェアリー",
+    "role": "フィールド",
+    "image": ""
+  },
+  {
+    "id": "pair-088",
+    "name": "Mixミヅキ",
+    "type": "フェアリー",
+    "role": "フィールド",
+    "image": ""
+  },
+  {
+    "id": "pair-089",
+    "name": "Arcカルネ",
+    "type": "フェアリー",
+    "role": "マルチ",
+    "image": ""
+  }
+]

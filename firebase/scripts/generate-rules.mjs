@@ -1,7 +1,9 @@
-import {writeFileSync} from 'node:fs';
+import {readFileSync,writeFileSync} from 'node:fs';
 import {CELL_KEYS} from '../src/domain.js';
 const keys=CELL_KEYS.map(key=>`'${key}'`).join(', ');
 const checks=CELL_KEYS.map(key=>`validCondition(c.${key})`).join('\n        && ');
+const characterIds=JSON.parse(readFileSync(new URL('../src/characters.json',import.meta.url),'utf8')).map(c=>`'${c.id}'`).join(',');
+const candyKeys=['yellow','green','red','orange','blue','purple','awakening'];
 const rules=`rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
@@ -31,6 +33,20 @@ service cloud.firestore {
         && d.createdAt is timestamp && d.updatedAt == request.time
         && validRatings(d.ratings) && validConditions(d.conditions);
     }
+    function validInventory(d) {
+      return d.keys().hasAll(['owned','level','moveLevel','exRole','updatedAt'])
+        && d.keys().hasOnly(['owned','level','moveLevel','exRole','updatedAt'])
+        && d.owned is bool && d.exRole is bool
+        && (d.level == null || (d.level is int && d.level >= 1 && d.level <= 200))
+        && (d.moveLevel == null || (d.moveLevel is int && d.moveLevel >= 1 && d.moveLevel <= 5))
+        && d.updatedAt == request.time;
+    }
+    function validCandies(d) {
+      return d.keys().hasAll(['yellow','green','red','orange','blue','purple','awakening','updatedAt'])
+        && d.keys().hasOnly(['yellow','green','red','orange','blue','purple','awakening','updatedAt'])
+        && ${candyKeys.map(k=>`d.${k} is int && d.${k} >= 0 && d.${k} <= 9999`).join('\n        && ')}
+        && d.updatedAt == request.time;
+    }
     match /boards/{boardId} {
       allow get: if signedIn() && validBoardId(boardId) && resource.data.enabled == true;
       allow list, create, update, delete: if false;
@@ -42,6 +58,20 @@ service cloud.firestore {
           && request.resource.data.createdAt == resource.data.createdAt
           && request.resource.data.order == resource.data.order;
         allow delete: if activeBoard(boardId);
+        match /inventory/{characterId} {
+          allow read: if activeBoard(boardId) && exists(/databases/$(database)/documents/boards/$(boardId)/members/$(memberId));
+          allow create, update: if activeBoard(boardId)
+            && exists(/databases/$(database)/documents/boards/$(boardId)/members/$(memberId))
+            && characterId in [${characterIds}] && validInventory(request.resource.data);
+          allow delete: if false;
+        }
+        match /supplies/{supplyId} {
+          allow read: if activeBoard(boardId) && exists(/databases/$(database)/documents/boards/$(boardId)/members/$(memberId));
+          allow create, update: if activeBoard(boardId)
+            && exists(/databases/$(database)/documents/boards/$(boardId)/members/$(memberId))
+            && supplyId == 'candies' && validCandies(request.resource.data);
+          allow delete: if false;
+        }
       }
     }
   }

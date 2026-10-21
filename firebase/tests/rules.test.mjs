@@ -13,6 +13,35 @@ before(async()=>{
   env=await initializeTestEnvironment({projectId:'demo-gymbattle',firestore:{host:'127.0.0.1',port:8085,rules:readFileSync(new URL('../firestore.rules',import.meta.url),'utf8')}});
 });
 after(async()=>env?.cleanup());
+test('inventory stays separate per member and rejects invalid or orphan entries',async()=>{
+  await setDoc(ref(db),member());await setDoc(ref(db,'two'),member());
+  const entry=(database,person='one',character='pair-001')=>doc(database,'boards',BOARD,'members',person,'inventory',character);
+  const value={owned:true,level:200,moveLevel:2,exRole:true,updatedAt:serverTimestamp()};
+  await assertSucceeds(setDoc(entry(db),value));
+  await assertSucceeds(setDoc(entry(db,'two'),{...value,owned:false}));
+  assert.equal((await getDoc(entry(db))).data().owned,true);
+  assert.equal((await getDoc(entry(db,'two'))).data().owned,false);
+  await assertFails(setDoc(entry(db,'missing'),value));
+  await assertFails(setDoc(entry(db,'one','unknown'),value));
+  await assertFails(updateDoc(entry(db),{level:201,updatedAt:serverTimestamp()}));
+  await assertFails(updateDoc(entry(db),{owned:'true',updatedAt:serverTimestamp()}));
+  await assertFails(updateDoc(entry(db),{moveLevel:6,updatedAt:serverTimestamp()}));
+  await assertFails(updateDoc(entry(db),{extra:'invalid',updatedAt:serverTimestamp()}));
+  await assertFails(getDoc(entry(env.unauthenticatedContext().firestore())));
+  const visitor=env.authenticatedContext('visitor').firestore();
+  await assertSucceeds(updateDoc(entry(visitor),{moveLevel:3,updatedAt:serverTimestamp()}));
+});
+test('candy counts have a fixed bounded numeric schema',async()=>{
+  await setDoc(ref(db),member());
+  const candy=doc(db,'boards',BOARD,'members','one','supplies','candies');
+  const value={yellow:2,green:4,red:1,orange:0,blue:1,purple:1,awakening:3,updatedAt:serverTimestamp()};
+  await assertSucceeds(setDoc(candy,value));
+  await assertFails(updateDoc(candy,{yellow:-1,updatedAt:serverTimestamp()}));
+  await assertFails(updateDoc(candy,{green:1.5,updatedAt:serverTimestamp()}));
+  await assertFails(updateDoc(candy,{red:10000,updatedAt:serverTimestamp()}));
+  await assertFails(setDoc(doc(db,'boards',BOARD,'members','one','supplies','other'),value));
+  await assertFails(getDoc(doc(env.unauthenticatedContext().firestore(),'boards',BOARD,'members','one','supplies','candies')));
+});
 beforeEach(async()=>{
   await env.clearFirestore();
   await env.withSecurityRulesDisabled(async context=>setDoc(doc(context.firestore(),'boards',BOARD),{enabled:true,schemaVersion:1}));
