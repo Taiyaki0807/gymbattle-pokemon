@@ -3,8 +3,9 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {filterCharacters,validateEntry,EMPTY_ENTRY} from '../src/inventory-domain.js';
 const characters=JSON.parse(readFileSync(new URL('../src/characters.json',import.meta.url),'utf8'));
-test('catalog contains 89 distinct named characters from the provided list',()=>{
-  assert.equal(characters.length,89);assert.equal(new Set(characters.map(c=>c.id)).size,89);assert.equal(new Set(characters.map(c=>c.name)).size,89);
+test('catalog retains the initial characters and supports distinct additions',()=>{
+  assert.ok(characters.length>=89);assert.equal(new Set(characters.map(c=>c.id)).size,characters.length);assert.equal(new Set(characters.map(c=>c.name)).size,characters.length);
+  assert.ok(characters.every(c=>/^pair-\d{3,}$/.test(c.id)&&c.name&&c.type&&c.role));
   assert.deepEqual(characters.slice(0,2).map(c=>c.name),['Cコトネ','Mレッド']);
 });
 test('ownership filters combine with character name, type and role',()=>{

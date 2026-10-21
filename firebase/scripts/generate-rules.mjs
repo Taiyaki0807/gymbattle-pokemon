@@ -2,7 +2,9 @@ import {readFileSync,writeFileSync} from 'node:fs';
 import {CELL_KEYS} from '../src/domain.js';
 const keys=CELL_KEYS.map(key=>`'${key}'`).join(', ');
 const checks=CELL_KEYS.map(key=>`validCondition(c.${key})`).join('\n        && ');
-const characterIds=JSON.parse(readFileSync(new URL('../src/characters.json',import.meta.url),'utf8')).map(c=>`'${c.id}'`).join(',');
+const catalog=JSON.parse(readFileSync(new URL('../src/characters.json',import.meta.url),'utf8'));
+if(!Array.isArray(catalog)||!catalog.length||catalog.some(c=>!/^pair-\d{3,}$/.test(c.id))||new Set(catalog.map(c=>c.id)).size!==catalog.length)throw Error('キャラIDには重複しない pair-090 のような値を使ってください。');
+const characterIds=catalog.map(c=>`'${c.id}'`).join(',');
 const candyKeys=['yellow','green','red','orange','blue','purple','awakening'];
 const rules=`rules_version = '2';
 service cloud.firestore {

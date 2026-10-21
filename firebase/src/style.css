@@ -89,4 +89,13 @@ button:disabled{opacity:.5;cursor:wait}
 #inventory-table select{min-width:90px;font-size:19px;font-weight:700;background:#e7ebee;padding:8px;min-height:46px}
 #inventory-table select.move-5{background:#ffcbac;color:#713704}
 #inventory-table select.move-10{background:#205b70;color:#fff}
+#inventory-table select.move-1,#inventory-table select.move-2{background:#e8e8e8;color:#172c33}
+#inventory-table select.move-3,#inventory-table select.move-4{background:#ffe599;color:#713f00}
+#inventory-table select.move-6,#inventory-table select.move-7,#inventory-table select.move-8,#inventory-table select.move-9{background:#bfe1f6;color:#075db7}
+#inventory-table .move-level option{background:#fff;color:#172c33}
+#inventory-table .move-level option[value="1"],#inventory-table .move-level option[value="2"]{background:#e8e8e8;color:#172c33}
+#inventory-table .move-level option[value="3"],#inventory-table .move-level option[value="4"]{background:#ffe599;color:#713f00}
+#inventory-table .move-level option[value="5"]{background:#ffcbac;color:#713704}
+#inventory-table .move-level option[value="6"],#inventory-table .move-level option[value="7"],#inventory-table .move-level option[value="8"],#inventory-table .move-level option[value="9"]{background:#bfe1f6;color:#075db7}
+#inventory-table .move-level option[value="10"]{background:#205b70;color:#fff}
 @media(max-width:500px){#inventory-table{min-width:570px}#inventory-table th:first-child,#inventory-table td:first-child,#inventory-table th:last-child,#inventory-table td:last-child{width:65px;min-width:65px}#inventory-table .character-picture{width:140px;min-width:140px}}

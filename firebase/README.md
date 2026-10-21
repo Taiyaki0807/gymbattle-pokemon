@@ -21,6 +21,37 @@ Django、Cloud Functions、App Hosting、Cloud Storage、課金アカウント�
 
 ## Firebaseを初めて使う場合
 
+### キャラを手動で追加する（PCでの作業）
+
+現在、Web画面にキャラを追加する管理フォームはありません。次の手順でカタログと画像を更新します。
+
+1. 加工したWebP画像を `firebase/public/characters/pair-090.webp` に保存します。画像なしなら手順2の `image` は空文字にします。
+2. `firebase/src/characters.json` の最後の `]` の直前へ、最後の既存データとの間にカンマを付けて、以下を追加します。次の追加では `pair-091` のように未使用IDを使います。画像ファイル名と `image` の末尾を合わせてください。
+
+```json
+{
+  "id": "pair-090",
+  "name": "追加するキャラ名",
+  "type": "ほのお",
+  "role": "アタッカー",
+  "image": "/characters/pair-090.webp"
+}
+```
+
+タイプは絞り込みに使います。ロールは今の一覧には表示しませんが、カタログ情報として登録します。既存キャラのIDは変更しません。新しいキャラの初期状態は全メンバーとも未所持・未設定です。
+
+3. PowerShellで以下を1行ずつ実行します。エラーが出たら、次の行へ進まず入力ファイルを確認してください。
+
+```powershell
+cd C:\Users\taise\pokemasu\firebase
+node scripts/generate-rules.mjs
+npm test
+npm run build
+npx firebase deploy --only "hosting,firestore:rules" --project gymbattle-pokemasu
+```
+
+キャラを増やしたときは保存を許可するIDのルールも更新するため、画像だけの場合と違い `firestore:rules` の公開も必要です。キャラ一覧と画像、生成したルールはGitにも保存してください。
+
 Firebaseは「Googleが提供する、画面と共有データの置き場所」です。
 プロジェクトはこのアプリ専用の入れ物で、以下の設定は管理者だけが行います。
 利用者は完成した共有URLを開くだけです。Googleログインや利用者登録は不要です。
