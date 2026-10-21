@@ -38,7 +38,7 @@ service cloud.firestore {
         && d.keys().hasOnly(['owned','level','moveLevel','exRole','updatedAt'])
         && d.owned is bool && d.exRole is bool
         && (d.level == null || (d.level is int && d.level >= 1 && d.level <= 200))
-        && (d.moveLevel == null || (d.moveLevel is int && d.moveLevel >= 1 && d.moveLevel <= 5))
+        && (d.moveLevel == null || (d.moveLevel is int && d.moveLevel >= 1 && d.moveLevel <= 10))
         && d.updatedAt == request.time;
     }
     function validCandies(d) {

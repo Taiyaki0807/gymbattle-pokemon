@@ -15,6 +15,6 @@ test('ownership filters combine with character name, type and role',()=>{
 });
 test('entry accepts blanks and rejects out-of-range, fractional and extra fields',()=>{
   assert.deepEqual(validateEntry(EMPTY_ENTRY),EMPTY_ENTRY);
-  assert.equal(validateEntry({...EMPTY_ENTRY,level:200,moveLevel:5}).level,200);
-  for(const changes of [{level:201},{moveLevel:0},{level:1.5},{owned:'false'},{extra:1}])assert.throws(()=>validateEntry({...EMPTY_ENTRY,...changes}));
+  assert.equal(validateEntry({...EMPTY_ENTRY,level:200,moveLevel:10}).level,200);
+  for(const changes of [{level:201},{moveLevel:11},{moveLevel:0},{level:1.5},{owned:'false'},{extra:1}])assert.throws(()=>validateEntry({...EMPTY_ENTRY,...changes}));
 });

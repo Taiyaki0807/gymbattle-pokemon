@@ -74,3 +74,19 @@ button:disabled{opacity:.5;cursor:wait}
 .inventory-status{margin:0;padding:8px 24px;color:var(--accent);font-size:12px}.candy-fields{display:grid;grid-template-columns:repeat(6,minmax(100px,1fr));gap:10px;padding:16px 24px 24px}.candy-field{border-radius:10px;padding:10px;margin:0;border:1px solid var(--line);border-top:5px solid var(--candy)}.candy-field span{font-size:11px}.candy-field input{margin-top:6px}.candy-yellow{--candy:#d6b500}.candy-green{--candy:#087f62}.candy-red{--candy:#d52626}.candy-orange{--candy:#f36b08}.candy-blue{--candy:#2868dc}.candy-purple{--candy:#a30bc6}.candy-awakening{--candy:#9bb8e8}
 #inventory-table{min-width:900px;width:100%}#inventory-table input[type=checkbox]{width:23px;min-height:23px;height:23px;accent-color:var(--accent);cursor:pointer}#inventory-table th,#inventory-table td{padding:10px;vertical-align:middle}#inventory-table tbody th{text-align:left;white-space:nowrap}#inventory-table select{min-width:105px}#inventory-table tr.is-owned{background:#dff3e9}#inventory-table .character-picture{width:84px;min-width:84px}.character-picture img{display:block;object-fit:contain;width:64px;height:64px}.character-placeholder{display:grid;place-items:center;width:64px;height:64px;background:#e9efed;color:#647a72;font-size:12px;border-radius:10px}.inventory-footnote{font-size:12px;padding:0 24px 16px}.inventory-scroll{max-height:65vh}
 @media(max-width:800px){.candy-fields{grid-template-columns:repeat(3,minmax(80px,1fr))}.inventory-heading{gap:12px;padding:18px}.candy-fields{padding:12px 18px}.inventory-heading label{width:100%}}
+
+/* Compact ownership sheet, with names underneath the shared character images. */
+#inventory-table{min-width:620px;table-layout:fixed}
+#inventory-table th,#inventory-table td{text-align:center;border-right:1px solid #d0d9d6}
+#inventory-table th:first-child,#inventory-table td:first-child,#inventory-table th:last-child,#inventory-table td:last-child{width:80px;min-width:80px}
+#inventory-table .character-picture{width:160px;min-width:160px;text-align:center;white-space:normal;background:transparent}
+#inventory-table .character-picture img{width:96px;height:96px;margin:0 auto}
+#inventory-table .character-placeholder{width:96px;height:96px;margin:0 auto;font-size:18px}
+#inventory-table .character-name{display:block;font-size:12px;margin-top:5px;white-space:normal}
+#inventory-table tbody tr{background:#f1f2f3}
+#inventory-table tbody tr.is-owned{background:#b4dece}
+#inventory-table input[type=checkbox]{width:28px;height:28px;min-height:28px}
+#inventory-table select{min-width:90px;font-size:19px;font-weight:700;background:#e7ebee;padding:8px;min-height:46px}
+#inventory-table select.move-5{background:#ffcbac;color:#713704}
+#inventory-table select.move-10{background:#205b70;color:#fff}
+@media(max-width:500px){#inventory-table{min-width:570px}#inventory-table th:first-child,#inventory-table td:first-child,#inventory-table th:last-child,#inventory-table td:last-child{width:65px;min-width:65px}#inventory-table .character-picture{width:140px;min-width:140px}}

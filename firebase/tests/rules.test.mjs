@@ -18,6 +18,7 @@ test('inventory stays separate per member and rejects invalid or orphan entries'
   const entry=(database,person='one',character='pair-001')=>doc(database,'boards',BOARD,'members',person,'inventory',character);
   const value={owned:true,level:200,moveLevel:2,exRole:true,updatedAt:serverTimestamp()};
   await assertSucceeds(setDoc(entry(db),value));
+  await assertSucceeds(updateDoc(entry(db),{moveLevel:10,updatedAt:serverTimestamp()}));
   await assertSucceeds(setDoc(entry(db,'two'),{...value,owned:false}));
   assert.equal((await getDoc(entry(db))).data().owned,true);
   assert.equal((await getDoc(entry(db,'two'))).data().owned,false);
@@ -25,7 +26,7 @@ test('inventory stays separate per member and rejects invalid or orphan entries'
   await assertFails(setDoc(entry(db,'one','unknown'),value));
   await assertFails(updateDoc(entry(db),{level:201,updatedAt:serverTimestamp()}));
   await assertFails(updateDoc(entry(db),{owned:'true',updatedAt:serverTimestamp()}));
-  await assertFails(updateDoc(entry(db),{moveLevel:6,updatedAt:serverTimestamp()}));
+  await assertFails(updateDoc(entry(db),{moveLevel:11,updatedAt:serverTimestamp()}));
   await assertFails(updateDoc(entry(db),{extra:'invalid',updatedAt:serverTimestamp()}));
   await assertFails(getDoc(entry(env.unauthenticatedContext().firestore())));
   const visitor=env.authenticatedContext('visitor').firestore();
