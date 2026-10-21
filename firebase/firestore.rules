@@ -1,0 +1,113 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedIn() { return request.auth != null; }
+    function validBoardId(id) { return id.matches('[a-zA-Z0-9_-]{32,80}'); }
+    function activeBoard(id) {
+      return signedIn() && validBoardId(id)
+        && get(/databases/$(database)/documents/boards/$(id)).data.enabled == true;
+    }
+    function validCondition(c) {
+      return c is string && c.size() <= 200;
+    }
+    function validRatings(r) {
+      return r is map && r.keys().hasAll(['fire_physical', 'fire_special', 'water_physical', 'water_special', 'electric_physical', 'electric_special', 'grass_physical', 'grass_special', 'ice_physical', 'ice_special', 'fighting_physical', 'fighting_special', 'poison_physical', 'poison_special', 'ground_physical', 'ground_special', 'flying_physical', 'flying_special', 'psychic_physical', 'psychic_special', 'bug_physical', 'bug_special', 'rock_physical', 'rock_special', 'ghost_physical', 'ghost_special', 'dragon_physical', 'dragon_special', 'dark_physical', 'dark_special', 'steel_physical', 'steel_special', 'fairy_physical', 'fairy_special', 'normal_physical', 'normal_special']) && r.keys().hasOnly(['fire_physical', 'fire_special', 'water_physical', 'water_special', 'electric_physical', 'electric_special', 'grass_physical', 'grass_special', 'ice_physical', 'ice_special', 'fighting_physical', 'fighting_special', 'poison_physical', 'poison_special', 'ground_physical', 'ground_special', 'flying_physical', 'flying_special', 'psychic_physical', 'psychic_special', 'bug_physical', 'bug_special', 'rock_physical', 'rock_special', 'ghost_physical', 'ghost_special', 'dragon_physical', 'dragon_special', 'dark_physical', 'dark_special', 'steel_physical', 'steel_special', 'fairy_physical', 'fairy_special', 'normal_physical', 'normal_special'])
+        && r.values().hasOnly(['excellent','yes','conditional','no','unset']);
+    }
+    function validConditions(c) {
+      return c is map && c.keys().hasAll(['fire_physical', 'fire_special', 'water_physical', 'water_special', 'electric_physical', 'electric_special', 'grass_physical', 'grass_special', 'ice_physical', 'ice_special', 'fighting_physical', 'fighting_special', 'poison_physical', 'poison_special', 'ground_physical', 'ground_special', 'flying_physical', 'flying_special', 'psychic_physical', 'psychic_special', 'bug_physical', 'bug_special', 'rock_physical', 'rock_special', 'ghost_physical', 'ghost_special', 'dragon_physical', 'dragon_special', 'dark_physical', 'dark_special', 'steel_physical', 'steel_special', 'fairy_physical', 'fairy_special', 'normal_physical', 'normal_special']) && c.keys().hasOnly(['fire_physical', 'fire_special', 'water_physical', 'water_special', 'electric_physical', 'electric_special', 'grass_physical', 'grass_special', 'ice_physical', 'ice_special', 'fighting_physical', 'fighting_special', 'poison_physical', 'poison_special', 'ground_physical', 'ground_special', 'flying_physical', 'flying_special', 'psychic_physical', 'psychic_special', 'bug_physical', 'bug_special', 'rock_physical', 'rock_special', 'ghost_physical', 'ghost_special', 'dragon_physical', 'dragon_special', 'dark_physical', 'dark_special', 'steel_physical', 'steel_special', 'fairy_physical', 'fairy_special', 'normal_physical', 'normal_special'])
+        && validCondition(c.fire_physical)
+        && validCondition(c.fire_special)
+        && validCondition(c.water_physical)
+        && validCondition(c.water_special)
+        && validCondition(c.electric_physical)
+        && validCondition(c.electric_special)
+        && validCondition(c.grass_physical)
+        && validCondition(c.grass_special)
+        && validCondition(c.ice_physical)
+        && validCondition(c.ice_special)
+        && validCondition(c.fighting_physical)
+        && validCondition(c.fighting_special)
+        && validCondition(c.poison_physical)
+        && validCondition(c.poison_special)
+        && validCondition(c.ground_physical)
+        && validCondition(c.ground_special)
+        && validCondition(c.flying_physical)
+        && validCondition(c.flying_special)
+        && validCondition(c.psychic_physical)
+        && validCondition(c.psychic_special)
+        && validCondition(c.bug_physical)
+        && validCondition(c.bug_special)
+        && validCondition(c.rock_physical)
+        && validCondition(c.rock_special)
+        && validCondition(c.ghost_physical)
+        && validCondition(c.ghost_special)
+        && validCondition(c.dragon_physical)
+        && validCondition(c.dragon_special)
+        && validCondition(c.dark_physical)
+        && validCondition(c.dark_special)
+        && validCondition(c.steel_physical)
+        && validCondition(c.steel_special)
+        && validCondition(c.fairy_physical)
+        && validCondition(c.fairy_special)
+        && validCondition(c.normal_physical)
+        && validCondition(c.normal_special);
+    }
+    function validMember(d) {
+      return d.keys().hasAll(['name','notes','ratings','conditions','order','createdAt','updatedAt'])
+        && d.keys().hasOnly(['name','notes','ratings','conditions','order','createdAt','updatedAt'])
+        && d.name is string && d.name.size() > 0 && d.name.size() <= 60 && d.name.matches('.*[^ ].*')
+        && d.notes is string && d.notes.size() <= 1000
+        && d.order is int && d.order >= 0 && d.order <= 9999999999999
+        && d.createdAt is timestamp && d.updatedAt == request.time
+        && validRatings(d.ratings) && validConditions(d.conditions);
+    }
+    function validInventory(d) {
+      return d.keys().hasAll(['owned','level','moveLevel','exRole','updatedAt'])
+        && d.keys().hasOnly(['owned','level','moveLevel','exRole','updatedAt'])
+        && d.owned is bool && d.exRole is bool
+        && (d.level == null || (d.level is int && d.level >= 1 && d.level <= 200))
+        && (d.moveLevel == null || (d.moveLevel is int && d.moveLevel >= 1 && d.moveLevel <= 10))
+        && d.updatedAt == request.time;
+    }
+    function validCandies(d) {
+      return d.keys().hasAll(['yellow','green','red','orange','blue','purple','awakening','updatedAt'])
+        && d.keys().hasOnly(['yellow','green','red','orange','blue','purple','awakening','updatedAt'])
+        && d.yellow is int && d.yellow >= 0 && d.yellow <= 9999
+        && d.green is int && d.green >= 0 && d.green <= 9999
+        && d.red is int && d.red >= 0 && d.red <= 9999
+        && d.orange is int && d.orange >= 0 && d.orange <= 9999
+        && d.blue is int && d.blue >= 0 && d.blue <= 9999
+        && d.purple is int && d.purple >= 0 && d.purple <= 9999
+        && d.awakening is int && d.awakening >= 0 && d.awakening <= 9999
+        && d.updatedAt == request.time;
+    }
+    match /boards/{boardId} {
+      allow get: if signedIn() && validBoardId(boardId) && resource.data.enabled == true;
+      allow list, create, update, delete: if false;
+      match /members/{memberId} {
+        allow read: if activeBoard(boardId);
+        allow create: if activeBoard(boardId) && validMember(request.resource.data)
+          && request.resource.data.createdAt == request.time;
+        allow update: if activeBoard(boardId) && validMember(request.resource.data)
+          && request.resource.data.createdAt == resource.data.createdAt
+          && request.resource.data.order == resource.data.order;
+        allow delete: if activeBoard(boardId);
+        match /inventory/{characterId} {
+          allow read: if activeBoard(boardId) && exists(/databases/$(database)/documents/boards/$(boardId)/members/$(memberId));
+          allow create, update: if activeBoard(boardId)
+            && exists(/databases/$(database)/documents/boards/$(boardId)/members/$(memberId))
+            && characterId in ['pair-001','pair-002','pair-003','pair-004','pair-005','pair-006','pair-007','pair-008','pair-009','pair-010','pair-011','pair-012','pair-013','pair-014','pair-015','pair-016','pair-017','pair-018','pair-019','pair-020','pair-021','pair-022','pair-023','pair-024','pair-025','pair-026','pair-027','pair-028','pair-029','pair-030','pair-031','pair-032','pair-033','pair-034','pair-035','pair-036','pair-037','pair-038','pair-039','pair-040','pair-041','pair-042','pair-043','pair-044','pair-045','pair-046','pair-047','pair-048','pair-049','pair-050','pair-051','pair-052','pair-053','pair-054','pair-055','pair-056','pair-057','pair-058','pair-059','pair-060','pair-061','pair-062','pair-063','pair-064','pair-065','pair-066','pair-067','pair-068','pair-069','pair-070','pair-071','pair-072','pair-073','pair-074','pair-075','pair-076','pair-077','pair-078','pair-079','pair-080','pair-081','pair-082','pair-083','pair-084','pair-085','pair-086','pair-087','pair-088','pair-089'] && validInventory(request.resource.data);
+          allow delete: if false;
+        }
+        match /supplies/{supplyId} {
+          allow read: if activeBoard(boardId) && exists(/databases/$(database)/documents/boards/$(boardId)/members/$(memberId));
+          allow create, update: if activeBoard(boardId)
+            && exists(/databases/$(database)/documents/boards/$(boardId)/members/$(memberId))
+            && supplyId == 'candies' && validCandies(request.resource.data);
+          allow delete: if false;
+        }
+      }
+    }
+  }
+}

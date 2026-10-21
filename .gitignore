@@ -5,4 +5,8 @@ __pycache__/
 *.sqlite3-journal
 .env
 staticfiles/
+media/
+data/
+.pythonanywhere.json
+deploy/*.generated.py
 .coverage

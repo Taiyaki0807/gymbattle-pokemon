@@ -1,71 +1,117 @@
 # Gym Battle Pokémon
 
-ポケモンマスターズ EX のチーム向けに、約20人のメンバーと18タイプへの参加可否を管理する非公式Webアプリです。人数に固定の上限はありません。
+**画像なし・共有URLで使うFirebase版は [firebase/](firebase/README.md) にあります。** Firebase Hosting＋Firestoreの無料Sparkプラン向けです。Django版は移行元として保持しています。
 
-## 機能
+PythonAnywhere無料プランへの公開手順は [こちら](docs/pythonanywhere.md)。公開用設定生成・WSGI設定例を同梱しています。
 
-- 日本語のメンバー × 18タイプ対応表（横スクロール・固定の名前列）
-- タイプごとに「可・条件付き・不可」と条件メモを保存
-- メンバー追加・編集・削除（削除確認画面あり）
-- 名前検索、タイプと参加可否による絞り込み。参加可否のみ指定すると、その状態のタイプを1つ以上持つメンバーを表示
-- SQLiteへの永続化、ログイン必須、CSRF保護
-- Django管理画面とGitHub Actionsによる自動テスト
+ポケモンマスターズ EX 向けの非公式チーム管理アプリ。Django 5.2 LTS / SQLiteを使用します。
 
-## ローカル起動
+## 表での操作
 
-Python 3.12〜3.14を推奨。Django 5.2 LTSを使用します。
+- 表の「＋」でメンバーが1行追加されます。専用の追加・編集画面はありません。
+- 名前を直接入力し、各セルで「◎・〇・△・×・-」を選択します。初期値は×です。
+- 18タイプをそれぞれ物理・特殊に分けた36セル構成。ノーマルは最後に並びます。
+- 名前・記号・メモは変更後に自動保存されます。名前とメモは入力欄から移動すると保存します。
+- 保存に失敗すると入力を保持し、赤枠の説明と「再保存」ボタンを表示します。
+- 表示するタイプはチェックボックスで複数選択できます。「絞り込む」で選択したタイプの列だけを表示し、未選択なら18タイプすべてを表示します。ノーマルは常に最後です。
+- 名前・物理/特殊・記号も組み合わせて絞り込みできます。タイプを複数選んだ場合は、選んだタイプのいずれかのセルが条件に一致するメンバーを表示します。
+- 記号「-」は×と別の値として保存・検索できます。非表示のタイプのデータは保持され、＋で追加した後も選択したタイプを維持します。
+- 表は横スクロールでき、名前列とヘッダーが固定されます。削除は確認画面付きです。
+- ログインした全ユーザーが全メンバーを編集できる、信頼できるチーム内向けの構成です。
+- JavaScriptが無効な場合は各入力の保存ボタンで保存できます。
+
+## ローカル起動（PowerShell）
+
+Python 3.12〜3.14を推奨します。
 
 ```powershell
-git clone https://github.com/Taiyaki0807/gymbattle-pokemon.git
+git clone --branch codex/inline-type-matrix https://github.com/Taiyaki0807/gymbattle-pokemon.git
 cd gymbattle-pokemon
-# PR未マージの場合
-git switch codex/django-type-roster
 python -m venv .venv
-.venv\Scripts\python -m pip install -r requirements.txt
-.venv\Scripts\python manage.py migrate
-.venv\Scripts\python manage.py createsuperuser
-.venv\Scripts\python manage.py runserver
+.\.venv\Scripts\python -m pip install -r requirements.txt
+.\.venv\Scripts\python manage.py migrate
+.\.venv\Scripts\python manage.py createsuperuser
+.\.venv\Scripts\python manage.py runserver
 ```
 
-macOS/Linuxでは `.venv\Scripts\python` を `.venv/bin/python` に読み替えてください。
+http://127.0.0.1:8000/ を開き、作成したアカウントでログインします。
+macOS/Linuxでは `.venv/Scripts/python` を `.venv/bin/python` に読み替えてください。
+管理画面は `/admin/` です。ここから個別の利用者アカウントも追加できます。
 
-ブラウザーで http://127.0.0.1:8000/ を開き、作成したアカウントでログインします。「メンバーを追加」から名前と参加可否を入力してください。初期値はすべて「不可」です。実メンバーのデータは同梱していません。
+## 既存版からの更新
 
-管理画面は http://127.0.0.1:8000/admin/ です。複数の利用者が使う場合は、管理画面のユーザーから個別アカウントを作れます。ログイン可能な全ユーザーが全メンバーを閲覧・編集・削除できる、信頼できるチーム内向けの構成です。
-
-## データとバックアップ
-
-データはプロジェクト直下の `db.sqlite3` に保存され、再起動後も残ります。DB・仮想環境・秘密情報はGit管理対象外です。バックアップはアプリ停止中に `db.sqlite3` を別の場所にコピーしてください。新しいPCへ移す場合は、同じコードと依存関係を準備し、DBを配置して `migrate` を実行します。
-
-## 検証
+サーバーを停止し、`db.sqlite3` を別の場所へコピーしてから更新してください。
 
 ```powershell
-.venv\Scripts\python manage.py check
-.venv\Scripts\python manage.py makemigrations --check --dry-run
-.venv\Scripts\python manage.py test
+git pull --ff-only origin codex/inline-type-matrix
+.\.venv\Scripts\python manage.py migrate
+.\.venv\Scripts\python manage.py runserver
 ```
 
-追加・更新・削除の永続化、18タイプ、複合フィルター、入力エラー、DB制約、認証・CSRF・HTMLエスケープをテストします。CIではPython 3.12と3.14で実行します。
+既存の可・条件付き・不可はそれぞれ〇・△・×として、物理・特殊の両方に記号と条件メモを引き継ぎます。
+物理と特殊を区別する情報が旧データにはないため、移行後に表で調整してください。
+メンバー名、メモ、アカウントは保持します。新しいDBマイグレーションはデータ損失を避けるため、旧形式へ戻す処理を提供しません。
 
-## 構成と今後の拡張
+## データと構成
+
+DBは `db.sqlite3` に永続化します。DB・秘密情報・仮想環境はGit対象外です。
+バックアップはアプリ停止中にSQLiteファイルをコピーしてください。
 
 - `config/`: 設定・URL・WSGI
-- `roster/models.py`: MemberとParticipation。メンバーとタイプの組み合わせは一意
-- `roster/constants.py`: 18タイプの定義
-- `roster/forms.py`: 18タイプの入力とトランザクション単位の保存
-- `roster/views.py`: 一覧・検索・編集・削除
-- `roster/templates/roster/`、`roster/static/roster/`: 日本語UIとレスポンシブCSS
-- `roster/migrations/`: DBの変更履歴。将来の機能追加時はマイグレーションを追加
+- `roster/models.py`: メンバーとタイプ別・分類別の記号。組み合わせごとに一意制約
+- `roster/forms.py`: 入力値の検証
+- `roster/views.py`: 一覧・絞り込み・行追加・セル更新・削除
+- `roster/templates/roster/`、`roster/static/roster/`: 日本語UIと表の自動保存
+- `roster/migrations/`: スキーマと既存データの移行
 
-参加可否を独立したモデルにしており、今後バディーズ情報やイベント単位の割り当てなどを追加できます。管理画面で作成されていないタイプのレコードは一覧で「未登録」と表示します。通常のメンバー編集画面で保存すると18タイプすべてが揃います。
+## テスト
 
-## 公開運用する場合
+```powershell
+.\.venv\Scripts\python manage.py check
+.\.venv\Scripts\python manage.py makemigrations --check --dry-run
+.\.venv\Scripts\python manage.py test
+```
 
-ローカル起動は開発用です。共有サーバーへの配備はこのPRには含みません。
+行追加・36セル・記号の個別更新・名前変更・入力エラー・検索・認証・CSRF・DB制約・既存データ移行を検証します。
+GitHub ActionsではPython 3.12と3.14で実行します。
 
-- `DJANGO_DEBUG=0`、ランダムな `DJANGO_SECRET_KEY`、`DJANGO_ALLOWED_HOSTS`（カンマ区切り）を環境変数に設定
-- HTTPSとWSGIサーバーを利用し、`python manage.py collectstatic` で集約した静的ファイルを配信
-- `python manage.py check --deploy` で配備設定を確認し、DBの定期バックアップを用意
-- SQLiteファイルを永続ディスクに保存。利用規模拡大時はPostgreSQLへの移行を検討
+## 公開運用
 
-`.env` ファイルの自動読み込みは行いません。環境変数は実行環境側で設定してください。公式画像・ロゴは使用していません。
+開発サーバーによるローカル利用を想定しています。配備時は以下を設定してください。
+
+- 環境変数 `DJANGO_DEBUG=0`、ランダムな `DJANGO_SECRET_KEY`、`DJANGO_ALLOWED_HOSTS`（カンマ区切り）
+- HTTPS、WSGIサーバー、`collectstatic` による静的ファイル配信
+- `manage.py check --deploy` による設定確認、永続ディスクと定期バックアップ
+
+`.env` の自動読み込みはありません。公式画像・ロゴは使用していません。
+
+## キャラ・タイプ画像のアップロード
+
+管理者でログインし、表上部の「キャラ・タイプ画像の設定」または `/admin/roster/headericon/` を開きます。
+「キャラ・タイプ画像を追加」から表示先と画像を選んで保存してください。
+
+- 「タイプ名の横」：18タイプそれぞれの名前の右に画像を表示
+- 「タイプ別・物理／特殊のキャラ」：「ほのお・物理」「ほのお・特殊」など36か所を個別に指定し、物理／特殊の文字の右にキャラ画像を表示
+- 「以前の共通画像」：過去に登録した物理・特殊の画像を保持。個別のキャラ画像がないタイプでのみ表示
+
+同じ表示先は1件だけ登録できます。差し替えはそのレコードを編集してください。
+未登録なら文字だけ（タイプは従来の色付きの点）で表示されます。画像は32pxの枠に収めて表示します。
+
+対応画像はPNG・JPEG・WebP、2MB以下、縦横1024px以下。小さい正方形の透過PNGが適しています。
+画像は `media/icons/` に保存し、Gitには含めません。DBには画像への参照を保存します。
+バックアップ・別PCへの移行時は `db.sqlite3` と `media/` の両方をコピーしてください。
+差し替え・削除後も旧ファイルは自動削除せず保持します。
+画像は開発・本番ともログイン必須のDjangoの `/media/` 経由で配信します。Webサーバー・公開ストレージ等から `media/` を認証なしで直接配信しないでください。保存先は永続ディスクにしてください。
+更新時は `pip install -r requirements.txt` を実行してから `migrate` を実行します。
+
+## 加入・退会とアクセス管理
+
+全員が表を編集できる、個別アカウント制です。共通アカウントを共有しないでください。
+
+1. 管理者でログインし、画面右上の「利用者アカウント」または `/admin/auth/user/` を開きます。
+2. 加入時は「ユーザーを追加」から1人ずつユーザー名とパスワードを設定します。「有効」にチェックを入れ、スタッフ・スーパーユーザー権限は付けないでください。通常のアカウントでも表の追加・編集・削除ができます。
+3. 退会時は対象のユーザーを開き、「有効」のチェックを外して保存します。新規ログインだけでなく、すでにログインした端末も次のアクセスから表の閲覧・編集・画像取得ができなくなります。
+
+表のメンバー行とログイン用アカウントは別管理です。行の削除だけではアクセスを止められません。
+アカウントを無効化しても、チームの表のデータやアップロード済み画像は保持します。
+アクセス停止は以後の取得を制限するもので、すでに保存・撮影されたデータを回収するものではありません。

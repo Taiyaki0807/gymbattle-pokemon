@@ -3,6 +3,6 @@
 <title>{% block title %}タイプ対応表{% endblock %} | Gym Battle</title>
 <link rel="stylesheet" href="{% static 'roster/style.css' %}"></head>
 <body><header class="topbar"><a class="brand" href="{% url 'roster:list' %}"><span class="brand-icon">G</span> GYM BATTLE <span class="brand-sub">チーム管理</span></a>
-{% if user.is_authenticated %}<form method="post" action="{% url 'logout' %}" class="logout">{% csrf_token %}<span>{{ user.username }}</span><button class="quiet">ログアウト</button></form>{% endif %}</header>
+{% if user.is_authenticated %}<div class="account-nav">{% if perms.auth.change_user %}<a href="{% url 'admin:auth_user_changelist' %}">利用者アカウント</a>{% endif %}<form method="post" action="{% url 'logout' %}" class="logout">{% csrf_token %}<span>{{ user.username }}</span><button class="quiet">ログアウト</button></form></div>{% endif %}</header>
 <main>{% for message in messages %}<div class="notice" role="status">{{ message }}</div>{% endfor %}{% block content %}{% endblock %}</main>
 <footer>ポケモンマスターズ EX ・ 非公式のチーム管理ツール</footer></body></html>
